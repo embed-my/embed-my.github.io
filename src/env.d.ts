@@ -1,4 +1,4 @@
 interface ImportMetaEnv {
-  /** The player page the preview frames, in place of the default in src/config.ts. */
+  /** A player page for the preview to frame instead of this site's own /h5p; see src/config.ts. */
   readonly VITE_PLAYER_URL?: string
 }

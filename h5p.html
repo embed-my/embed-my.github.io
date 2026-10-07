@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Embed My player</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles/h5p-page.css" />
+    <script type="module" src="/src/h5p-page.ts"></script>
+  </head>
+
+  <body>
+    <!-- In the HTML, so it shows before any script runs: the first seconds go to the worker and the package's index. -->
+    <div class="loader" id="loader" role="status">
+      <span class="spinner" aria-hidden="true"></span>
+      <span>Loading…</span>
+    </div>
+    <!-- The player names its worker and frame assets relative to its own module, and Vite emits them beside it. -->
+    <h5p-player id="player" auto-resize></h5p-player>
+    <p class="notice" id="notice" hidden></p>
+  </body>
+</html>

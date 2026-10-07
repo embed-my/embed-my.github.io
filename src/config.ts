@@ -9,11 +9,14 @@
 export const SITE_ORIGIN = 'https://embed-my.github.io'
 
 /**
- * The page the preview frames: the hosted h5p-offline-player for now, which takes the same
- * parameters `${SITE_ORIGIN}/h5p` will. Once the player is deployed on this site, this becomes that
- * page. To try a local player, set `VITE_PLAYER_URL` in `.env.local`.
+ * The page the preview frames: this site's own `/h5p`, on whatever origin the page is served
+ * from, so the preview is the very page the snippet names and, on localhost, the local build of
+ * it. `VITE_PLAYER_URL` in `.env.local` points it elsewhere. Tests run without a window, and
+ * there only the snippet's address matters.
  */
-export const PLAYER_URL = import.meta.env.VITE_PLAYER_URL || 'https://h5p-offline-player.vercel.app/embed'
+export const PLAYER_URL =
+  import.meta.env.VITE_PLAYER_URL ||
+  (typeof location === 'undefined' ? `${SITE_ORIGIN}/h5p` : new URL('/h5p', location.origin).href)
 
 /** The formats the cards offer, keyed by their radio button's value, with the path of each one's embed page. */
 export const FORMATS = {

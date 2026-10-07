@@ -17,6 +17,9 @@ importers:
       '@fontsource/poppins':
         specifier: ^5.3.0
         version: 5.3.0
+      '@missing-elements/h5p-offline-player':
+        specifier: ^0.4.0
+        version: 0.4.0
     devDependencies:
       typescript:
         specifier: ^7.0.2
@@ -48,6 +51,10 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@missing-elements/h5p-offline-player@0.4.0':
+    resolution: {integrity: sha512-S8UV5huqo9fm8LzxHlsHqS7PS5ElaZ5EgDgYXrW64QcHWLH8WtLyp0vEq9xQtNA9PSR3PJb+0tG+j7kEEfQPHg==}
+    engines: {node: '>=20'}
 
   '@oxc-project/types@0.153.0':
     resolution: {integrity: sha512-jSNrRIyvPVLL5E1z/tS5zLAprosGz/FuI1PWwEOz59j3E4TTTzSpqKb/RDGqJhhW0QHYISGXxq582wGx6T11Tw==}
@@ -288,6 +295,10 @@ packages:
   '@vitest/spy@5.0.3':
     resolution: {integrity: sha512-XhFysQTB8AZ+P4gMi+Lpo99vg2AZi0qKpaB9yXQl37+CaMEAPO3iH/wGVnSyL5MPERiLezpqTVtrR6UZH5GCXg==}
 
+  '@zip.js/zip.js@2.23.0':
+    resolution: {integrity: sha512-K5obAqfrO7zhycnCupM9aaoZ9kx0SA0kv7+Z2oOUsdpWquv4s/Z4zyD7AdTqxrK3pgPM+ozaUi8kdRQbCWaIrQ==}
+    engines: {bun: '>=0.7.0', deno: '>=1.0.0', node: '>=18.0.0'}
+
   assertion-error@2.0.1:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
     engines: {node: '>=12'}
@@ -323,6 +334,9 @@ packages:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+
+  h5p-standalone@3.8.2:
+    resolution: {integrity: sha512-r7eQtTzBk/dbaQZ+tA9XD5FeSmyMxlypRZXudiheCnC8zAT0/zNgUvO4MZtZaznwfYVo98o7do5uxLTUQrxxwg==}
 
   lightningcss-android-arm64@1.33.0:
     resolution: {integrity: sha512-gEpRTalKdosp4Bb8qWtc2iOgE5SeIHlpS1up9bFq2wAyYhl1UdTObYiHe98zEM9SQvSoqQZ1IQD0JNpg3Ml5pg==}
@@ -552,6 +566,11 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
+  '@missing-elements/h5p-offline-player@0.4.0':
+    dependencies:
+      '@zip.js/zip.js': 2.23.0
+      h5p-standalone: 3.8.2
+
   '@oxc-project/types@0.153.0': {}
 
   '@rolldown/binding-android-arm-eabi@1.2.13':
@@ -681,6 +700,8 @@ snapshots:
 
   '@vitest/spy@5.0.3': {}
 
+  '@zip.js/zip.js@2.23.0': {}
+
   assertion-error@2.0.1: {}
 
   chai@6.3.0: {}
@@ -701,6 +722,8 @@ snapshots:
 
   fsevents@2.3.3:
     optional: true
+
+  h5p-standalone@3.8.2: {}
 
   lightningcss-android-arm64@1.33.0:
     optional: true
