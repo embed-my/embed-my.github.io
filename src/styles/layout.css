@@ -266,6 +266,69 @@
   margin-top: 0.5rem;
 }
 
+/* ---------------------------------------------------------------- faq */
+
+/* The long tail of questions, each folded: the title is the question, the answer opens under it. */
+.faq {
+  display: grid;
+  gap: var(--space-block);
+  padding-block: var(--space-section);
+  border-top: 1px solid var(--line);
+}
+
+.faq-list {
+  max-width: 46rem;
+  border-top: 1px solid var(--line);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq-item summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  font: 600 1.05rem/1.35 var(--font-display);
+  list-style: none;
+  cursor: pointer;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: '+';
+  flex: none;
+  color: var(--accent);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.faq-item[open] summary::after {
+  content: '−';
+}
+
+.faq-item summary:hover {
+  color: var(--accent);
+}
+
+.faq-answer {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 40rem;
+  padding-bottom: 1.2rem;
+  color: var(--muted);
+  font-size: 0.97rem;
+}
+
+.faq-more {
+  color: var(--muted);
+}
+
 /* ---------------------------------------------------------------- footer */
 
 .footer {
