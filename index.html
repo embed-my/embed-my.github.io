@@ -364,67 +364,67 @@
           <h2 class="step-title" id="h-faq"><svg class="safety-icon" aria-hidden="true"><use href="#i-question" /></svg>Questions people ask</h2>
           <div class="faq-list">
             <details class="faq-item" open>
-              <summary>Where do I get an <code>.h5p</code> file?</summary>
+              <summary><span>Where do I get an <code>.h5p</code> file?</span></summary>
               <div class="faq-answer">
                 <p>From wherever the activity was made. Lumi, H5P.com, h5p.org and the H5P plugins for Moodle, WordPress and Drupal all offer a download, usually under the activity's <strong>Reuse</strong> button.</p>
                 <p>Make sure the export includes its libraries. Exports from H5P.com and h5p.org often hold only the content and rely on the site they came from; such a file plays there but not anywhere else. Choose a complete export, then check it in the preview above. <a href="https://github.com/embed-my/.github/blob/main/docs/hosting-packages.md#packages-and-library-files">Packages and library files →</a></p>
               </div>
             </details>
             <details class="faq-item">
-              <summary>Can the file live on Google Drive, Dropbox or OneDrive?</summary>
+              <summary><span>Can the file live on Google Drive, Dropbox or OneDrive?</span></summary>
               <div class="faq-answer">
                 <p>Not through their ordinary share links. Those open a preview page rather than the file, and the file is not sent with the header a browser needs (CORS). Some of these services can give a direct link; test it in the preview, because many still lack the header.</p>
                 <p>The sure way is a host that gives the file a direct <code>https://…/name.h5p</code> address and allows cross-origin requests. GitHub Pages does both as it comes, and so does most web hosting where you can set a header. <a href="https://github.com/embed-my/.github/blob/main/docs/hosting-packages.md">Preparing and hosting packages →</a></p>
               </div>
             </details>
             <details class="faq-item">
-              <summary>Does it work on WordPress, Moodle, Google Sites, Squarespace, Wix…?</summary>
+              <summary><span>Does it work on WordPress, Moodle, Google Sites, Squarespace, Wix…?</span></summary>
               <div class="faq-answer">
                 <p>On any page where you can paste HTML: look for the site's <strong>HTML</strong>, <strong>Embed</strong>, <strong>Custom HTML</strong> or <strong>iframe</strong> block. If the site keeps the iframe but removes the script, the activity still plays, at the minimum height you set above.</p>
                 <p>A site whose embed block takes only a web address, not HTML, can be given the frame's address alone: the <code>src</code> of the iframe in the snippet.</p>
               </div>
             </details>
             <details class="faq-item">
-              <summary>Why is the activity cut off, or followed by blank space?</summary>
+              <summary><span>Why is the activity cut off, or followed by blank space?</span></summary>
               <div class="faq-answer">
                 <p>The sizing script is missing, or your site removed it. Paste the snippet into a block that keeps scripts, or set the minimum height to the height the preview measures: it fills that field in for you once the activity has loaded. <a href="https://github.com/embed-my/.github/blob/main/docs/troubleshooting.md">Troubleshooting →</a></p>
               </div>
             </details>
             <details class="faq-item">
-              <summary>Which browsers and devices does it work on?</summary>
+              <summary><span>Which browsers and devices does it work on?</span></summary>
               <div class="faq-answer">
-                <p>Current Chrome, Edge, Firefox and Safari, on desktop and Android, and iOS from version 26. The page that holds the frame has to be served over <code>https://</code>.</p>
+                <p>Current Chrome, Edge, Firefox and Safari, on desktop and on phones. The page that holds the frame has to be served over <code>https://</code>.</p>
                 <p>The built-in browsers inside some social and messaging apps cannot run it. The frame then shows a link that opens the activity on its own page.</p>
               </div>
             </details>
             <details class="faq-item">
-              <summary>Can I see learners' scores or results?</summary>
+              <summary><span>Can I see learners' scores or results?</span></summary>
               <div class="faq-answer">
                 <p>Not here. Embed My keeps no accounts and no records, so treat an embed as an ungraded activity: visitors do it, and nothing is stored.</p>
                 <p>A developer can receive every xAPI statement on your own page as it happens, with the developer option above, and send it to a learning record store. Nothing is sent unless you ask for it that way. <a href="https://github.com/embed-my/.github/blob/main/docs/results-and-xapi.md">Results, xAPI and grades →</a></p>
               </div>
             </details>
             <details class="faq-item">
-              <summary>Can I update the activity after embedding it?</summary>
+              <summary><span>Can I update the activity after embedding it?</span></summary>
               <div class="faq-answer">
                 <p>Yes. Replace the file at the same address and leave the snippet as it is. The player tells versions apart by the file's <code>ETag</code> or modification date, which nearly every host sends, so visitors get the new version on their next load.</p>
               </div>
             </details>
             <details class="faq-item">
-              <summary>Can I put several activities on one page?</summary>
+              <summary><span>Can I put several activities on one page?</span></summary>
               <div class="faq-answer">
                 <p>Yes. Paste one snippet per activity. The script line only needs to be on the page once; extra copies do nothing.</p>
               </div>
             </details>
             <details class="faq-item">
-              <summary>Is it accessible?</summary>
+              <summary><span>Is it accessible?</span></summary>
               <div class="faq-answer">
                 <p>The frame has a title that screen readers announce, the one you set above, and supports fullscreen. Inside it, keyboard and screen-reader behaviour come from the H5P content type and from how the activity was authored.</p>
                 <p>Before publishing, run through the activity with the keyboard alone, give video and audio captions or a transcript, and keep essential information available outside the activity too. <a href="https://github.com/embed-my/.github/blob/main/docs/accessibility.md">Accessibility →</a></p>
               </div>
             </details>
             <details class="faq-item">
-              <summary>What does it cost?</summary>
+              <summary><span>What does it cost?</span></summary>
               <div class="faq-answer">
                 <p>Nothing. Embed My is free and open source, with no accounts, plans or limits of its own. The only thing you might pay for is wherever you host your package.</p>
               </div>

@@ -296,6 +296,11 @@
   cursor: pointer;
 }
 
+/* The question is one span, so the flex row holds just it and the toggle, whatever markup it contains. */
+.faq-item summary > span {
+  flex: 1;
+}
+
 .faq-item summary::-webkit-details-marker {
   display: none;
 }
