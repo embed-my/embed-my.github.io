@@ -1,0 +1,103 @@
+/* Step 5: the snippet on its board, and what to do with it. The token classes are the kinds in
+   src/snippet.ts; attribute values carry no class. */
+
+.board {
+  overflow: hidden;
+  border: 1px solid var(--board-line);
+  border-radius: var(--radius);
+  background: var(--board);
+  color: var(--board-ink);
+}
+
+.board-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.6rem 0.5rem 1rem;
+  border-bottom: 1px solid var(--board-line);
+  color: var(--board-dim);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.board-label {
+  min-width: 0;
+}
+
+.board pre {
+  margin: 0;
+  padding: 1rem 1.1rem 1.15rem;
+  font: 0.86rem/1.65 var(--font-mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 2;
+}
+
+/* Before a link is pasted the board shows the example, a little dimmed: it still copies. */
+.board[data-example] pre {
+  opacity: 0.8;
+}
+
+.tk-tag {
+  color: var(--board-dim);
+}
+
+.tk-attr {
+  color: var(--board-attr);
+}
+
+.tk-url {
+  padding: 0 0.15em;
+  border-radius: 3px;
+  background: var(--board-mark-bg);
+  color: var(--board-mark);
+}
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--board-dim);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--board-ink);
+  font: 700 0.85rem var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  transition:
+    border-color var(--ease),
+    color var(--ease);
+}
+
+.copy:hover {
+  border-color: var(--board-ink);
+}
+
+.copy[data-done] {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.copy .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.after {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 42rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.after-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+}

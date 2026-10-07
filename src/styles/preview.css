@@ -1,0 +1,120 @@
+/* Step 3: the stage the preview plays on. Its `data-state` is set by src/ui/preview.ts:
+   `empty`, `loading`, `ready` or `stalled`. */
+
+.stage {
+  position: relative;
+  display: grid;
+  min-height: 14rem;
+  margin: 0.5rem 0 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+/* The viewfinder brackets: four corners drawn just outside the frame. */
+.stage::before {
+  --b: linear-gradient(var(--accent), var(--accent));
+
+  content: '';
+  position: absolute;
+  inset: -8px;
+  opacity: 0.9;
+  pointer-events: none;
+  background:
+    var(--b) top left / 18px 2px,
+    var(--b) top left / 2px 18px,
+    var(--b) top right / 18px 2px,
+    var(--b) top right / 2px 18px,
+    var(--b) bottom left / 18px 2px,
+    var(--b) bottom left / 2px 18px,
+    var(--b) bottom right / 18px 2px,
+    var(--b) bottom right / 2px 18px;
+  background-repeat: no-repeat;
+}
+
+.stage iframe {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 24rem;
+  border: 0;
+  border-radius: var(--radius);
+}
+
+.stage[data-state='empty'] iframe {
+  display: none;
+}
+
+.stage-empty {
+  display: grid;
+  place-self: center;
+  justify-items: center;
+  gap: 0.5rem;
+  max-width: 28rem;
+  padding: 2rem 1.5rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.stage-empty .icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--line-strong);
+}
+
+.stage:not([data-state='empty']) .stage-empty {
+  display: none;
+}
+
+.stage-status {
+  position: absolute;
+  left: 50%;
+  bottom: -0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: calc(100% - 2rem);
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  transform: translateX(-50%);
+}
+
+.stage-status:empty {
+  display: none;
+}
+
+.stage[data-state='stalled'] .stage-status {
+  border-color: var(--warn);
+  color: var(--fg);
+}
+
+.spinner {
+  flex: none;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.measured {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}

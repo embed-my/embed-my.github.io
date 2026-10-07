@@ -1,0 +1,109 @@
+/* Layout: one left-aligned column. The five steps run down it in the order a visitor takes them,
+   and the preview and the snippet are its two wide moments. The motif is the viewfinder bracket:
+   it frames whatever gets embedded on the preview. The colours come from the logo (public/logo.svg). */
+
+:root {
+  color-scheme: light;
+
+  --bg: #f5f4f9;
+  --surface: #ffffff;
+  --surface-2: #ebe9f2;
+  --fg: #1c1a27;
+  --muted: #5f5c70;
+  --line: #dad7e4;
+  --line-strong: #b3afc3;
+  /* The two inks of the logo's wordmark: purple leads, blue follows. */
+  --accent: #7847a0;
+  --accent-ink: #ffffff;
+  --accent-soft: color-mix(in srgb, var(--accent) 9%, transparent);
+  --accent-2: #2b76b1;
+  --danger: #b3261e;
+  --warn: #8a5a00;
+  --ok: #1d7a42;
+
+  /* The board the snippet is written on, in the logo's colours: blue attribute names, the address
+     marked in its orange. */
+  --board: #fbfaff;
+  --board-ink: #1c1a27;
+  --board-dim: #77738a;
+  --board-line: #dad7e4;
+  --board-attr: #2b76b1;
+  --board-mark: #9a4d12;
+  --board-mark-bg: rgb(255 208 96 / 0.3);
+
+  /* Which of the theme switch's two icons shows: the theme a press would bring. */
+  --icon-sun: none;
+  --icon-moon: inline;
+
+  --font-display: 'Poppins', 'Avenir Next', 'Helvetica Neue', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 1px 2px rgb(30 20 50 / 0.05), 0 12px 32px -20px rgb(30 20 50 / 0.25);
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --content: 60rem;
+  --ease: 160ms ease;
+}
+
+/* The dark tokens, twice, because they apply in two cases that no one selector covers: the system
+   prefers dark and the visitor has not pinned light, or the visitor has pinned dark whatever the
+   system says. The pin is `data-theme` on <html>, set by the switch. Keep the two blocks the same. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --bg: #110f18;
+    --surface: #18161f;
+    --surface-2: #211e2b;
+    --fg: #e8e6ef;
+    --muted: #a19db2;
+    --line: #2c2938;
+    --line-strong: #433f52;
+    --accent: #c4a3ec;
+    --accent-ink: #1e0f30;
+    --accent-2: #74b8e8;
+    --danger: #ff8f86;
+    --warn: #f0c060;
+    --ok: #62d094;
+    --board: #0c0a12;
+    --board-ink: #e9e7f0;
+    --board-dim: #8a8599;
+    --board-line: #24202f;
+    --board-attr: #7ce2eb;
+    --board-mark: #ffd060;
+    --board-mark-bg: rgb(255 208 96 / 0.16);
+    --icon-sun: inline;
+    --icon-moon: none;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 14px 36px -20px rgb(0 0 0 / 0.7);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #110f18;
+  --surface: #18161f;
+  --surface-2: #211e2b;
+  --fg: #e8e6ef;
+  --muted: #a19db2;
+  --line: #2c2938;
+  --line-strong: #433f52;
+  --accent: #c4a3ec;
+  --accent-ink: #1e0f30;
+  --accent-2: #74b8e8;
+  --danger: #ff8f86;
+  --warn: #f0c060;
+  --ok: #62d094;
+  --board: #0c0a12;
+  --board-ink: #e9e7f0;
+  --board-dim: #8a8599;
+  --board-line: #24202f;
+  --board-attr: #7ce2eb;
+  --board-mark: #ffd060;
+  --board-mark-bg: rgb(255 208 96 / 0.16);
+  --icon-sun: inline;
+  --icon-moon: none;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 14px 36px -20px rgb(0 0 0 / 0.7);
+}

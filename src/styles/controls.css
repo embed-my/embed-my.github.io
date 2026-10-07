@@ -1,0 +1,69 @@
+/* Form controls shared by the link field and the options. */
+
+.field {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.field > label,
+.field-label {
+  font-weight: 700;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+input[type='url'],
+input[type='text'],
+input[type='number'] {
+  min-width: 0;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--fg);
+  font: 400 0.95rem/1.4 var(--font-mono);
+}
+
+input[type='text'] {
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+input:focus-visible {
+  border-color: var(--accent);
+  outline-offset: 1px;
+}
+
+/* Only once the visitor has left the field or sent the form, so a half-typed link is not marked. */
+input:user-invalid {
+  border-color: var(--danger);
+}
+
+.primary {
+  padding: 0.7rem 1.25rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter var(--ease);
+}
+
+.primary:hover {
+  filter: brightness(1.08);
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-size: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
