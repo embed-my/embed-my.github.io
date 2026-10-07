@@ -43,7 +43,7 @@
   --radius-sm: 6px;
   --shadow: 0 1px 2px rgb(30 20 50 / 0.05), 0 12px 32px -20px rgb(30 20 50 / 0.25);
   --gutter: clamp(1rem, 5vw, 3rem);
-  --content: 60rem;
+  --content: 72rem;
 
   /* The vertical rhythm: between sections, between the parts of one, and inside a box. */
   --space-section: clamp(2.75rem, 6vw, 4.5rem);

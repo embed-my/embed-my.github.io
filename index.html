@@ -71,6 +71,9 @@
         <circle cx="12" cy="12" r="9" />
         <path d="M9.3 9.5a2.7 2.7 0 1 1 3.9 2.4c-.8.4-1.2 1-1.2 1.8v.3M12 17h.01" />
       </symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v16M5 13l7 7 7-7" />
+      </symbol>
       <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="9" y="9" width="11" height="11" rx="2" />
         <path d="M5 15V5a2 2 0 0 1 2-2h10" />
@@ -103,18 +106,63 @@
 
       <main>
         <section class="hero">
-          <p class="eyebrow">No account · Nothing to install · Nothing stored</p>
-          <h1>Put an interactive activity on any page you can edit.</h1>
-          <p class="lede">
-            Paste a link to an H5P package, watch it play, and copy an iframe snippet for your website,
-            portfolio or course page. The activity runs in its own frame, so your site needs no plugin
-            and keeps no learner data.
-          </p>
-          <ul class="needs" aria-label="What you need">
-            <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>An <code>.h5p</code> file you may share</li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>A public <code>https://</code> link to it</li>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>A page where you can paste HTML</li>
-          </ul>
+          <div class="hero-text">
+            <h1>Put an interactive activity on any page you can edit.</h1>
+            <p class="eyebrow">No account · Nothing to install · Nothing stored</p>
+            <p class="lede">
+              Paste a link to an H5P package, watch it play, and copy an iframe snippet for your website,
+              portfolio or course page. The activity runs in its own frame, so your site needs no plugin
+              and keeps no learner data.
+            </p>
+            <ul class="needs" aria-label="What you need">
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>An <code>.h5p</code> file you may share</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>A public <code>https://</code> link to it</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-check" /></svg>A page where you can paste HTML</li>
+            </ul>
+            <p><a class="primary hero-cta" href="#h-link">Try it with your file ↓</a></p>
+          </div>
+
+          <!-- How it goes, as a looping animation: the link, the snippet, the activity on the page.
+               Decorative; the sentence before it says the same for a screen reader. Styled in layout.css. -->
+          <p class="sr-only">How it works: paste the link to your .h5p file, copy the snippet, paste it into your page, and the activity plays there.</p>
+          <div class="flow" aria-hidden="true">
+            <div class="flow-step flow-file">
+              <span class="flow-label">1 · Your file</span>
+              <div class="flow-card flow-link">
+                <svg class="icon" aria-hidden="true"><use href="#i-activity" /></svg>
+                <span class="flow-url">https://my-school.edu/week-1-quiz.h5p</span>
+              </div>
+            </div>
+            <svg class="flow-arrow flow-arrow-1" aria-hidden="true"><use href="#i-arrow-down" /></svg>
+            <div class="flow-step flow-snippet">
+              <span class="flow-label">2 · The snippet</span>
+              <div class="flow-card flow-code">
+                <code><span class="tk-tag">&lt;iframe </span><span class="tk-attr">src</span><span class="tk-tag">="</span><span class="tk-url">https://embed-my.github.io/h5p?src=…/week-1-quiz.h5p</span><span class="tk-tag">"&gt;&lt;/iframe&gt;</span></code>
+                <span class="flow-copy"><span class="flow-copy-idle">Copy</span><span class="flow-copy-done">Copied</span></span>
+              </div>
+            </div>
+            <svg class="flow-arrow flow-arrow-2" aria-hidden="true"><use href="#i-arrow-down" /></svg>
+            <div class="flow-step flow-page">
+              <span class="flow-label">3 · Your page</span>
+              <div class="flow-card flow-site">
+                <div class="flow-bar"><span class="flow-dots"><span></span><span></span><span></span></span><span class="flow-address">my-school.edu/year-7/science</span></div>
+                <div class="flow-body">
+                  <p class="flow-title">Week 1 · The solar system</p>
+                  <div class="flow-lines"><span></span><span></span></div>
+                  <div class="flow-quiz">
+                    <p class="flow-question">Which planet is closest to the Sun?</p>
+                    <ul class="flow-options">
+                      <li>Venus</li>
+                      <li class="flow-pick">Mercury<svg class="icon" aria-hidden="true"><use href="#i-check" /></svg></li>
+                      <li>Mars</li>
+                    </ul>
+                    <p class="flow-result">Correct!</p>
+                  </div>
+                  <div class="flow-lines"><span></span><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section class="step" aria-labelledby="h-format">
