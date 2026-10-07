@@ -20,13 +20,13 @@ describe('buildSnippet', () => {
     expect(snippetText(buildSnippet(request()))).toBe(
       [
         '<iframe',
-        '  src="https://embed-my.org/h5p?src=https://h5p-offline-player.vercel.app/demo/content/quiz.h5p"',
+        '  src="https://embed-my.github.io/h5p?src=https://h5p-offline-player.vercel.app/demo/content/quiz.h5p"',
         '  title="Sample quiz"',
         '  loading="lazy"',
         '  allow="fullscreen"',
         '  style="width: 100%; min-height: 540px; border: 0"',
         '></iframe>',
-        '<script src="https://embed-my.org/h5p-resizer.js"></script>'
+        '<script src="https://embed-my.github.io/h5p-resizer.js"></script>'
       ].join('\n')
     )
   })
@@ -46,7 +46,7 @@ describe('buildSnippet', () => {
   it('marks the embed address as the one token of its kind', () => {
     const urls = buildSnippet(request()).filter((token) => token.kind === 'url')
     expect(urls).toHaveLength(1)
-    expect(urls[0]?.text).toMatch(/^https:\/\/embed-my\.org\/h5p\?src=/)
+    expect(urls[0]?.text).toMatch(/^https:\/\/embed-my\.github\.io\/h5p\?src=/)
   })
 })
 

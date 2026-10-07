@@ -63,6 +63,10 @@
         <path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z" />
         <path d="M8.75 12l2.25 2.25 4.25-4.5" />
       </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3.5 2" />
+      </symbol>
       <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <rect x="9" y="9" width="11" height="11" rx="2" />
         <path d="M5 15V5a2 2 0 0 1 2-2h10" />
@@ -263,7 +267,7 @@
           </p>
           <ul class="safety-list">
             <li>
-              <strong>The activity runs on <span class="nowrap">embed-my.org</span>, not on your site.</strong>
+              <strong>The activity runs on Embed My's own address, not on your site.</strong>
               H5P packages contain JavaScript. Inside the frame it cannot read your site's cookies, logins or storage,
               or touch your page's content. The snippet grants the frame one permission, fullscreen: no camera,
               microphone or location.
@@ -304,10 +308,50 @@
               </li>
               <li>Packages embedded on the same site share the frame's storage there: one package's scripts can read another's files and address.</li>
               <li>The package link is public in your page's HTML. Never use a secret or expiring link, and keep personal data out of the package.</li>
-              <li>The frame and the script come from <span class="nowrap">embed-my.org</span>. You trust this service as you trust any embed, which is why all of it is open source.</li>
+              <li>The frame and the script come from Embed My. You trust this service as you trust any embed, which is why all of it is open source.</li>
             </ul>
           </div>
           <p><a href="https://github.com/embed-my/.github/blob/main/docs/privacy-and-security.md">Privacy and security in full →</a></p>
+        </section>
+
+        <section class="safety" id="lasting" aria-labelledby="h-lasting">
+          <h2 class="step-title" id="h-lasting"><svg class="safety-icon" aria-hidden="true"><use href="#i-clock" /></svg>How long will my embed work?</h2>
+          <p class="step-intro">
+            For as long as this project is on GitHub. There is no expiry and nothing to renew, and the address in the
+            snippet is chosen so that nothing that could lapse stands between your page and the activity.
+          </p>
+          <ul class="safety-list">
+            <li>
+              <strong>The snippet points at <span class="nowrap">embed-my.github.io</span>, not at a bought domain.</strong>
+              That address is GitHub's for this project: nothing to renew, nothing anyone else can register.
+              embed-my.org is just this page's address; while we have it, GitHub forwards the snippet's address to it.
+              If the domain ever lapsed, no pasted snippet would notice.
+            </li>
+            <li>
+              <strong>Your package stays yours.</strong>
+              The <code>.h5p</code> file lives on your host, not here. Embed My only points at it, so nothing of yours is
+              lost if this project ends.
+            </li>
+            <li>
+              <strong>If the project ever stops, the frame shows an error.</strong>
+              Your page itself keeps working: a frame that cannot load and a script that is not found break nothing
+              around them. The activity is what goes missing.
+            </li>
+            <li>
+              <strong>You can run the same player yourself.</strong>
+              The player is open source (MIT). Put it on your own site, or on any static host, and point the snippet at
+              it. Nothing about your package has to change.
+            </li>
+          </ul>
+          <div class="safety-limits">
+            <p class="safety-limits-title">If you would rather load nothing from anyone</p>
+            <p>
+              The iframe is only a window, but <code>h5p-resizer.js</code> runs on your page. Copy it to your own site
+              and change the <code>src</code> in the snippet to your copy: it is sixty lines, MIT-licensed, and needs
+              no updates. The frame is then the only thing your page takes from Embed My.
+            </p>
+          </div>
+          <p><a href="https://github.com/embed-my/.github/blob/main/docs/embedding.md#how-long-an-embed-works">How long an embed works, in full →</a></p>
         </section>
       </main>
 

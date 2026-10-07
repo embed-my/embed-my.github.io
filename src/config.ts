@@ -1,8 +1,12 @@
 /**
  * Where the snippets point: the origin that serves the embed page (`/h5p`) and the sizing script
- * (`/h5p-resizer.js`). Fixed, so a snippet copied from a local build works on a visitor's page too.
+ * (`/h5p-resizer.js`). The GitHub Pages address rather than embed-my.org, on purpose: it belongs to
+ * the project for as long as it is on GitHub, with nothing to renew and nothing anyone else can
+ * register, so every snippet ever pasted outlives the domain. While the domain is ours, GitHub
+ * forwards this address to it. Fixed, so a snippet copied from a local build works on a visitor's
+ * page too.
  */
-export const SITE_ORIGIN = 'https://embed-my.org'
+export const SITE_ORIGIN = 'https://embed-my.github.io'
 
 /**
  * The page the preview frames: the hosted h5p-offline-player for now, which takes the same
