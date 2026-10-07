@@ -426,6 +426,14 @@
               </div>
             </details>
             <details class="faq-item">
+              <summary><span>Is there a maximum file size?</span></summary>
+              <div class="faq-answer">
+                <p>Not from Embed My, which never holds your file. The player reads the package in place: it fetches the archive's index with a few kilobytes, pulls only what the activity asks for, and never holds more than 8 MB in memory. On a host that answers Range requests, as GitHub Pages does, a 300 MB package starts within seconds; what limits you there is your host and your visitors' connection.</p>
+                <p>On a host without Range requests the whole file downloads and is stored in the visitor's browser before anything plays, and a package larger than the browser allows fails with a storage error. That allowance varies by browser and is smaller inside another site's page, so keep packages there to tens of megabytes, or move to a host that supports ranges. Hosts have caps of their own too: GitHub refuses single files over 100 MB.</p>
+                <p>Big packages are big because of video. Run the package through <code>h5p-normalize</code> once and the video starts before the file has finished downloading. <a href="https://github.com/embed-my/.github/blob/main/docs/hosting-packages.md#how-big-can-a-package-be">How big can a package be →</a></p>
+              </div>
+            </details>
+            <details class="faq-item">
               <summary><span>Does it work on WordPress, Moodle, Google Sites, Squarespace, Wix…?</span></summary>
               <div class="faq-answer">
                 <p>On any page where you can paste HTML: look for the site's <strong>HTML</strong>, <strong>Embed</strong>, <strong>Custom HTML</strong> or <strong>iframe</strong> block. If the site keeps the iframe but removes the script, the activity still plays, at the minimum height you set above.</p>
