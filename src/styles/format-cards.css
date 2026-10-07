@@ -11,16 +11,16 @@ fieldset {
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .card {
   position: relative;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
-  gap: 0.6rem;
+  gap: 0.7rem;
   min-width: 0;
-  padding: 1.1rem 1.2rem 1rem;
+  padding: var(--space-inner) 1.5rem 1.25rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);

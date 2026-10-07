@@ -12,10 +12,10 @@
 body {
   margin: 0;
   padding-inline: var(--gutter);
-  padding-block: 0 3rem;
+  padding-block: 0 var(--space-section);
   background: var(--bg);
   color: var(--fg);
-  font: 400 1.0625rem/1.55 var(--font-body);
+  font: 400 1.0625rem/1.6 var(--font-body);
   accent-color: var(--accent);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
