@@ -2,7 +2,7 @@ import { HELLO, readResizerMessage } from '../resizer'
 
 /**
  * Step 3: the preview. The frame loads the player's embed page and is sized by the same resizer
- * protocol `/resizer.js` handles on a visitor's page. The stage's `data-state` drives
+ * protocol `/h5p-resizer.js` handles on a visitor's page. The stage's `data-state` drives
  * src/styles/preview.css.
  */
 

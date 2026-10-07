@@ -131,7 +131,7 @@ export function buildSnippet({ site, path, src, title, display, minHeight, xapiO
     newline,
     ...attribute('style', `width: 100%; min-height: ${minHeight}px; border: 0`),
     tag('\n></iframe>\n<script '),
-    ...attribute('src', `${site}/resizer.js`),
+    ...attribute('src', `${site}/h5p-resizer.js`),
     tag('></script>')
   ]
 }

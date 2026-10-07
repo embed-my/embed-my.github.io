@@ -17,16 +17,28 @@
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.7rem;
   color: var(--fg);
-  font: 700 1.2rem var(--font-display);
+  font: 700 1.6rem var(--font-display);
   letter-spacing: -0.01em;
   text-decoration: none;
 }
 
 .brand-mark {
-  width: 2rem;
-  height: 2rem;
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+/* The wordmark over the organisation's tagline, as in the footer. */
+.brand-text {
+  display: grid;
+  line-height: 1.1;
+}
+
+.brand-tagline {
+  color: var(--muted);
+  font: 400 0.82rem/1.3 var(--font-body);
+  letter-spacing: 0;
 }
 
 /* The wordmark, set in the logo's purple-to-blue. */
@@ -250,21 +262,57 @@
 
 .footer {
   display: grid;
-  gap: 0.75rem;
-  padding-block: 1.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: 1.5rem 3rem;
+  padding-block: 2.5rem 1rem;
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 0.88rem;
+}
+
+.footer-org,
+.footer-meta {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
 }
 
 .footer p {
   max-width: 60ch;
 }
 
+/* The logo at its largest on the page: the mark, the wordmark and the organisation's tagline. */
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  justify-self: start;
+  text-decoration: none;
+}
+
+.footer-brand img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.footer-brand > span {
+  display: grid;
+}
+
+.footer-brand .brand-name {
+  font: 700 1.35rem/1.15 var(--font-display);
+}
+
+.footer-tagline {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .footer-links {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem 1.25rem;
+  font-weight: 700;
 }
 
 .nowrap {

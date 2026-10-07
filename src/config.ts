@@ -1,6 +1,6 @@
 /**
  * Where the snippets point: the origin that serves the embed page (`/h5p`) and the sizing script
- * (`/resizer.js`). Fixed, so a snippet copied from a local build works on a visitor's page too.
+ * (`/h5p-resizer.js`). Fixed, so a snippet copied from a local build works on a visitor's page too.
  */
 export const SITE_ORIGIN = 'https://embed-my.org'
 
