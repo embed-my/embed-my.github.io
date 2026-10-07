@@ -1,15 +1,31 @@
-/* Step 4: the display options. */
+/* Step 3, first half: the display options, a compact panel above the preview they change. Each
+   option is label, control, then its hint in smaller type. */
 
 .options {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-  gap: 2.25rem 3rem;
+  gap: 1.25rem 2rem;
+  padding: var(--space-inner) 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
 }
 
 .option {
   display: grid;
   align-content: start;
-  gap: 0.5rem;
+  gap: 0.4rem;
+}
+
+.options .hint {
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.options input[type='text'],
+.options input[type='number'],
+.options input[type='url'] {
+  padding-block: 0.6rem;
 }
 
 .option input[type='text'] {
@@ -18,7 +34,7 @@
 
 .checks {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.45rem;
 }
 
 .checks label {
@@ -35,19 +51,16 @@
   margin: 0.3rem 0 0;
 }
 
-.checks .sub {
-  margin-left: 1.6rem;
+/* The bar's two buttons, side by side. */
+.checks-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.25rem;
 }
 
 .checks label:has(input:disabled) {
   color: var(--muted);
   cursor: default;
-}
-
-.checks small {
-  display: block;
-  color: var(--muted);
-  font-size: 0.88rem;
 }
 
 /* A browser without accent-color draws its own checkboxes; this keeps the brand on them there. */
@@ -87,7 +100,7 @@
 }
 
 .with-unit input {
-  width: 7rem;
+  width: 6rem;
 }
 
 .with-unit span {
@@ -102,11 +115,12 @@
   width: max-content;
   max-width: 100%;
   color: var(--accent);
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
 }
 
 .dev .option {
   max-width: 34rem;
-  margin-top: 1.25rem;
+  margin-top: 0.75rem;
 }

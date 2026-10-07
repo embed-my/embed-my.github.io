@@ -1,4 +1,4 @@
-/* Step 3: the stage the preview plays on. Its `data-state` is set by src/ui/preview.ts:
+/* Step 3, second half: the stage the preview plays on. Its `data-state` is set by src/ui/preview.ts:
    `empty`, `loading`, `ready` or `stalled`. */
 
 .stage {

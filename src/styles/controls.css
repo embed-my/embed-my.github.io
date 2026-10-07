@@ -57,13 +57,3 @@ input:user-invalid {
   filter: brightness(1.08);
 }
 
-.link-button {
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--accent);
-  font-size: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-  cursor: pointer;
-}

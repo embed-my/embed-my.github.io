@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { EXAMPLE, FORMATS, SITE_ORIGIN } from './config'
 import { buildSnippet, displayFlags, embedUrl, originOf, snippetText, titleFromUrl, type SnippetRequest } from './snippet'
 
-const NO_TOOLBAR = { toolbar: false, copyright: false, reuse: false }
+const NO_TOOLBAR = { copyright: false, reuse: false }
 
 const request = (overrides: Partial<SnippetRequest> = {}): SnippetRequest => ({
   site: SITE_ORIGIN,
@@ -33,7 +33,7 @@ describe('buildSnippet', () => {
 
   it('adds the display flags and the xAPI origin, with the ampersands escaped for HTML', () => {
     const text = snippetText(
-      buildSnippet(request({ display: { toolbar: true, copyright: true, reuse: false }, xapiOrigin: 'https://school.example' }))
+      buildSnippet(request({ display: { copyright: true, reuse: false }, xapiOrigin: 'https://school.example' }))
     )
     expect(text).toContain('quiz.h5p&amp;frame&amp;copyright&amp;xapi=https://school.example"')
   })
@@ -51,13 +51,14 @@ describe('buildSnippet', () => {
 })
 
 describe('displayFlags', () => {
-  it('names nothing without the toolbar, whatever its buttons say', () => {
-    expect(displayFlags({ toolbar: false, copyright: true, reuse: true })).toEqual([])
+  it('leaves the bar out when neither of its buttons is ticked', () => {
+    expect(displayFlags({ copyright: false, reuse: false })).toEqual([])
   })
 
-  it('uses the player’s own parameter names', () => {
-    expect(displayFlags({ toolbar: true, copyright: true, reuse: true })).toEqual(['frame', 'copyright', 'export'])
-    expect(displayFlags({ toolbar: true, copyright: false, reuse: false })).toEqual(['frame'])
+  it('shows the bar with whichever buttons are ticked, by the player’s own parameter names', () => {
+    expect(displayFlags({ copyright: true, reuse: true })).toEqual(['frame', 'copyright', 'export'])
+    expect(displayFlags({ copyright: true, reuse: false })).toEqual(['frame', 'copyright'])
+    expect(displayFlags({ copyright: false, reuse: true })).toEqual(['frame', 'export'])
   })
 })
 

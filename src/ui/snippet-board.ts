@@ -1,7 +1,7 @@
 import { snippetText, type Token } from '../snippet'
 import { copyOrSelect } from './clipboard'
 
-/** Step 5: the snippet on its board, with the copy button. */
+/** Step 4: the snippet on its board, with the copy button. */
 
 export interface SnippetBoardParts {
   board: HTMLElement

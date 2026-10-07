@@ -183,7 +183,42 @@
         </section>
 
         <section class="step" aria-labelledby="h-preview">
-          <h2 class="step-title" id="h-preview"><span class="step-no" aria-hidden="true">3</span>Check the preview</h2>
+          <h2 class="step-title" id="h-preview"><span class="step-no" aria-hidden="true">3</span>Set the display options and check the preview</h2>
+          <div class="options">
+            <div class="option">
+              <label class="field-label" for="opt-title">Frame title</label>
+              <input type="text" id="opt-title" placeholder="Week 1 knowledge check" aria-describedby="opt-title-hint" />
+              <span class="hint" id="opt-title-hint">Screen readers announce it. Left blank, the file name is used.</span>
+            </div>
+            <div class="option">
+              <span class="field-label" id="opt-toolbar-label">H5P toolbar</span>
+              <div class="checks checks-row" role="group" aria-labelledby="opt-toolbar-label" aria-describedby="opt-toolbar-hint">
+                <label><input type="checkbox" id="opt-copyright" checked /><span>Rights of use</span></label>
+                <label><input type="checkbox" id="opt-reuse" checked /><span>Reuse</span></label>
+              </div>
+              <span class="hint" id="opt-toolbar-hint">The bar H5P sites show under an activity, with the buttons you tick: Rights of use lists the licences in the package, Reuse lets visitors download it. Tick neither and there is no bar.</span>
+            </div>
+            <div class="option">
+              <label class="field-label" for="opt-height">Minimum height</label>
+              <div class="with-unit">
+                <input type="number" id="opt-height" value="540" min="100" max="4000" inputmode="numeric" aria-describedby="opt-height-hint" />
+                <span>px</span>
+              </div>
+              <span class="hint" id="opt-height-hint">Filled in from the preview; type a height to keep your own. It applies only if your site strips the sizing script.</span>
+            </div>
+            <details class="dev">
+              <summary>For developers: receive xAPI statements</summary>
+              <div class="option">
+                <label class="field-label" for="opt-xapi">Your page's origin</label>
+                <input type="url" id="opt-xapi" placeholder="https://your-site.example" autocomplete="off" spellcheck="false" aria-describedby="opt-xapi-hint" />
+                <span class="hint" id="opt-xapi-hint">
+                  The frame then posts every statement to that origin with <code>postMessage</code>, and to no other.
+                  Check <code>event.origin</code> and <code>event.source</code> before using one. <br>
+                  <a href="https://github.com/embed-my/.github/blob/main/docs/results-and-xapi.md">Results, xAPI and grades →</a>
+                </span>
+              </div>
+            </details>
+          </div>
           <p class="step-intro">This is the frame your visitors will get, played by the same player. If it works here, it works on your page.</p>
           <div class="stage" id="stage" data-state="empty">
             <div class="stage-empty">
@@ -197,47 +232,8 @@
           <p class="measured" id="measured" hidden></p>
         </section>
 
-        <section class="step" aria-labelledby="h-options">
-          <h2 class="step-title" id="h-options"><span class="step-no" aria-hidden="true">4</span>Choose the display options</h2>
-          <div class="options">
-            <div class="option">
-              <label class="field-label" for="opt-title">Frame title</label>
-              <span class="hint" id="opt-title-hint">Screen readers announce it. Left blank, the file name is used.</span>
-              <input type="text" id="opt-title" placeholder="Week 1 knowledge check" aria-describedby="opt-title-hint" />
-            </div>
-            <div class="option">
-              <span class="field-label" id="opt-toolbar-label">H5P toolbar</span>
-              <div class="checks" role="group" aria-labelledby="opt-toolbar-label">
-                <label><input type="checkbox" id="opt-toolbar" checked /><span>Show H5P's toolbar under the activity<small>The bar H5P sites show, with the buttons you tick below.</small></span></label>
-                <label class="sub"><input type="checkbox" id="opt-copyright" checked /><span>Rights of use<small>Shows the licences recorded in the package and its media.</small></span></label>
-                <label class="sub"><input type="checkbox" id="opt-reuse" checked /><span>Reuse<small>Lets visitors download the package.</small></span></label>
-              </div>
-            </div>
-            <div class="option">
-              <label class="field-label" for="opt-height">Minimum height</label>
-              <span class="hint" id="opt-height-hint">The frame grows to fit the activity on its own. This height applies if your site strips the sizing script.</span>
-              <div class="with-unit">
-                <input type="number" id="opt-height" value="540" min="100" max="4000" inputmode="numeric" aria-describedby="opt-height-hint" />
-                <span>px</span>
-              </div>
-            </div>
-            <details class="dev">
-              <summary>For developers: receive xAPI statements</summary>
-              <div class="option">
-                <label class="field-label" for="opt-xapi">Your page's origin</label>
-                <span class="hint" id="opt-xapi-hint">
-                  The frame then posts every statement to that origin with <code>postMessage</code>, and to no other.
-                  Check <code>event.origin</code> and <code>event.source</code> before using one.
-                  <a href="https://github.com/embed-my/.github/blob/main/docs/results-and-xapi.md">Results, xAPI and grades →</a>
-                </span>
-                <input type="url" id="opt-xapi" placeholder="https://your-site.example" autocomplete="off" spellcheck="false" aria-describedby="opt-xapi-hint" />
-              </div>
-            </details>
-          </div>
-        </section>
-
         <section class="step" aria-labelledby="h-snippet">
-          <h2 class="step-title" id="h-snippet"><span class="step-no" aria-hidden="true">5</span>Copy the snippet into your page</h2>
+          <h2 class="step-title" id="h-snippet"><span class="step-no" aria-hidden="true">4</span>Copy the snippet into your page</h2>
           <div class="board" id="board" data-example>
             <div class="board-bar">
               <span class="board-label" id="board-label">Example · a sample quiz, or paste a link above</span>

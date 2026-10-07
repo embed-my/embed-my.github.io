@@ -3,10 +3,8 @@
  * Nothing here touches the page.
  */
 
-/** What the frame shows around the activity, by what a visitor sees. */
+/** What the frame shows around the activity, by what a visitor sees: the buttons of H5P's own bar under it. */
 export interface DisplayOptions {
-  /** H5P's own bar under the activity. */
-  toolbar: boolean
   /** The bar's Rights of use button: the licences recorded in the package and its media. */
   copyright: boolean
   /** The bar's Reuse button, which lets visitors download the package. */
@@ -15,10 +13,10 @@ export interface DisplayOptions {
 
 /**
  * The display options as the player's own parameters, which are bare flags: `frame`, `copyright`,
- * `export`. The buttons live in the bar, so without the bar there are none.
+ * `export`. The bar (`frame`) is there to hold the buttons, so it shows with either and not without.
  */
-export function displayFlags({ toolbar, copyright, reuse }: DisplayOptions): string[] {
-  if (!toolbar) return []
+export function displayFlags({ copyright, reuse }: DisplayOptions): string[] {
+  if (!copyright && !reuse) return []
   const flags = ['frame']
   if (copyright) flags.push('copyright')
   if (reuse) flags.push('export')

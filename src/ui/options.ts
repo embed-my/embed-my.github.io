@@ -1,13 +1,12 @@
 import { isFormat, type Format } from '../config'
 import { originOf, type DisplayOptions } from '../snippet'
 
-/** Steps 1 and 4: the format card and the display options, read from the form as it stands. */
+/** Steps 1 and 3: the format card and the display options, read from the form as it stands. */
 
 export interface OptionsParts {
   /** The format cards' radio buttons. */
   formats: HTMLInputElement[]
   title: HTMLInputElement
-  toolbar: HTMLInputElement
   copyright: HTMLInputElement
   reuse: HTMLInputElement
   minHeight: HTMLInputElement
@@ -30,29 +29,27 @@ export type OptionsChange = 'display' | 'snippet'
 
 export interface Options {
   read(): EmbedOptions
-  setMinHeight(height: number): void
+  /**
+   * Offers the activity's measured height as the minimum height. Taken while the field still holds
+   * the default or an earlier measurement; once the visitor has typed a height of their own, theirs
+   * stands. Says whether it was taken.
+   */
+  suggestMinHeight(height: number): boolean
 }
 
 export function createOptions(parts: OptionsParts, onChange: (change: OptionsChange) => void): Options {
-  const { formats, title, toolbar, copyright, reuse, minHeight, xapi } = parts
+  const { formats, title, copyright, reuse, minHeight, xapi } = parts
   // The height in the markup, for when the field is cleared or out of range.
   const defaultHeight = Number.parseInt(minHeight.defaultValue, 10)
+  // Whether the visitor has typed a height; a measurement never overwrites one.
+  let heightTyped = false
 
-  // The bar's buttons mean nothing without the bar.
-  const syncToolbar = () => {
-    copyright.disabled = !toolbar.checked
-    reuse.disabled = !toolbar.checked
-  }
-
-  for (const input of [toolbar, copyright, reuse]) {
-    input.addEventListener('change', () => {
-      syncToolbar()
-      onChange('display')
-    })
-  }
+  for (const input of [copyright, reuse]) input.addEventListener('change', () => onChange('display'))
   for (const input of [title, minHeight, xapi]) input.addEventListener('input', () => onChange('snippet'))
+  minHeight.addEventListener('input', () => {
+    heightTyped = true
+  })
   for (const input of formats) input.addEventListener('change', () => onChange('snippet'))
-  syncToolbar()
 
   return {
     read() {
@@ -61,15 +58,19 @@ export function createOptions(parts: OptionsParts, onChange: (change: OptionsCha
       return {
         format: isFormat(format) ? format : 'h5p',
         title: title.value.trim(),
-        display: { toolbar: toolbar.checked, copyright: copyright.checked, reuse: reuse.checked },
+        display: { copyright: copyright.checked, reuse: reuse.checked },
         minHeight: minHeight.validity.valid && height > 0 ? height : defaultHeight,
         xapiOrigin: originOf(xapi.value)
       }
     },
 
-    setMinHeight(height) {
-      minHeight.value = String(height)
-      onChange('snippet')
+    suggestMinHeight(height) {
+      if (heightTyped) return false
+      if (minHeight.value !== String(height)) {
+        minHeight.value = String(height)
+        onChange('snippet')
+      }
+      return true
     }
   }
 }

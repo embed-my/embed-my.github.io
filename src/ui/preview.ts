@@ -1,7 +1,7 @@
 import { HELLO, readResizerMessage } from '../resizer'
 
 /**
- * Step 3: the preview. The frame loads the player's embed page and is sized by the same resizer
+ * Step 3, second half: the preview. The frame loads the player's embed page and is sized by the same resizer
  * protocol `/h5p-resizer.js` handles on a visitor's page. The stage's `data-state` drives
  * src/styles/preview.css.
  */
@@ -18,8 +18,8 @@ export interface PreviewSettings {
   playerOrigin: string
   /** How long the frame may stay silent before the stage offers to open it on its own. */
   stallAfterMs: number
-  /** Called when the visitor asks for the measured height as the snippet's minimum height. */
-  onUseHeight: (height: number) => void
+  /** Called with each height the activity reports; says whether the snippet took it as its minimum height. */
+  onHeight: (height: number) => boolean
 }
 
 export interface Preview {
@@ -62,13 +62,13 @@ export function createPreview({ stage, frame, status, measured }: PreviewParts, 
     status.append(link)
   }
 
+  // The measured height goes to the options, which take it as the minimum height unless the
+  // visitor typed one; the line under the frame says which happened.
   const showHeight = (height: number) => {
-    const use = document.createElement('button')
-    use.type = 'button'
-    use.className = 'link-button'
-    use.textContent = 'Use it as the minimum height'
-    use.addEventListener('click', () => settings.onUseHeight(height))
-    measured.replaceChildren(`Measured height: ${height} px. `, use)
+    const taken = settings.onHeight(height)
+    measured.textContent = taken
+      ? `Measured height: ${height} px, set as the snippet's minimum height.`
+      : `Measured height: ${height} px. The snippet keeps the minimum height you typed.`
     measured.hidden = false
   }
 

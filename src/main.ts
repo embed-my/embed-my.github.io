@@ -17,11 +17,12 @@ let src: string | null = null
 
 const stage = byId('stage', HTMLElement)
 
+const previewTitle = byId('h-preview', HTMLElement)
+
 const options = createOptions(
   {
     formats: allOf(document, 'input[name="format"]', HTMLInputElement),
     title: byId('opt-title', HTMLInputElement),
-    toolbar: byId('opt-toolbar', HTMLInputElement),
     copyright: byId('opt-copyright', HTMLInputElement),
     reuse: byId('opt-reuse', HTMLInputElement),
     minHeight: byId('opt-height', HTMLInputElement),
@@ -29,7 +30,7 @@ const options = createOptions(
   },
   (change) => {
     renderSnippet()
-    // The toolbar is part of the frame, so the preview follows it.
+    // The bar and its buttons are part of the frame, so the preview follows them.
     if (change === 'display') loadPreview()
   }
 )
@@ -44,7 +45,7 @@ const preview = createPreview(
   {
     playerOrigin: new URL(PLAYER_URL).origin,
     stallAfterMs: PREVIEW_STALL_MS,
-    onUseHeight: (height) => options.setMinHeight(height)
+    onHeight: (height) => options.suggestMinHeight(height)
   }
 )
 
@@ -89,7 +90,8 @@ initPackageForm(
       renderSnippet()
       loadPreview()
       const motion = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
-      stage.scrollIntoView({ behavior: motion, block: 'start' })
+      // To the step's title, not the frame, so the visitor sees what they are looking at.
+      previewTitle.scrollIntoView({ behavior: motion, block: 'start' })
     }
   }
 )
