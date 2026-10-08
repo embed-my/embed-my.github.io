@@ -17,7 +17,7 @@ export interface SnippetBoard {
 }
 
 const LABEL = { example: 'Example · a sample quiz, or paste a link above', yours: 'HTML · your snippet' }
-const COPY_LABEL = { idle: 'Copy snippet', copied: 'Copied', selected: 'Selected: press Ctrl+C or ⌘C' }
+const COPY_LABEL = { idle: 'Copy', copied: 'Copied', selected: 'Selected: press Ctrl+C or ⌘C' }
 const COPY_FEEDBACK_MS = 2400
 
 export function createSnippetBoard({ board, label, code, copy, copyLabel }: SnippetBoardParts): SnippetBoard {
