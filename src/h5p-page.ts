@@ -1,4 +1,5 @@
 import '@missing-elements/h5p-offline-player'
+import { runtime } from '@missing-elements/h5p-runtime'
 import { byId } from './ui/dom'
 
 /**
@@ -17,10 +18,15 @@ import { byId } from './ui/dom'
 
 interface PlayerElement extends HTMLElement {
   state: string
+  runtime: typeof runtime | null
 }
 
 const params = new URLSearchParams(location.search)
 const player = byId('player', HTMLElement) as PlayerElement
+// The H5P runtime the frame loads is a package of its own (GPL-3.0, apart from the MIT player);
+// the element only names its files, and has to be told where they are before a package is set.
+// Vite emits them as hashed assets beside everything else, and `runtime` carries those addresses.
+player.runtime = runtime
 const notice = byId('notice', HTMLElement)
 const loader = byId('loader', HTMLElement)
 const framed = window.parent !== window

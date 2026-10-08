@@ -27,9 +27,18 @@ export type Format = keyof typeof FORMATS
 
 export const isFormat = (value: string): value is Format => Object.hasOwn(FORMATS, value)
 
+/**
+ * Where the sample packages are fetched from, by the frame. Not `SITE_ORIGIN`: GitHub's redirect
+ * from it to the custom domain carries no CORS header, so a frame on embed-my.org cannot fetch a
+ * package through it. The frame runs on this origin, which makes the samples a same-origin fetch.
+ * The chips on the page use the path alone, resolved against whatever origin the page is on, so a
+ * local build plays its own copies.
+ */
+export const SAMPLES_ORIGIN = 'https://embed-my.org'
+
 /** What the snippet shows before a link is pasted: the example from the embedding guide. */
 export const EXAMPLE = {
-  src: 'https://h5p-offline-player.vercel.app/demo/content/quiz.h5p',
+  src: `${SAMPLES_ORIGIN}/samples/quiz.h5p`,
   title: 'Sample quiz',
 } as const
 

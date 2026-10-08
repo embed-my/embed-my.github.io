@@ -102,7 +102,7 @@ export function createPreview({ stage, frame, status, measured }: PreviewParts, 
       setState('loading')
       say('Loading the preview…', { busy: true })
       frame.src = url
-      stallTimer = setTimeout(stalled, settings.stallAfterMs)
+      stallTimer = window.setTimeout(stalled, settings.stallAfterMs)
     }
   }
 }

@@ -20,7 +20,7 @@ describe('buildSnippet', () => {
     expect(snippetText(buildSnippet(request()))).toBe(
       [
         '<iframe',
-        '  src="https://embed-my.github.io/h5p?src=https://h5p-offline-player.vercel.app/demo/content/quiz.h5p"',
+        '  src="https://embed-my.github.io/h5p?src=https://embed-my.org/samples/quiz.h5p"',
         '  title="Sample quiz"',
         '  loading="lazy"',
         '  allow="fullscreen"',

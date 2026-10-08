@@ -3,7 +3,7 @@
 export interface PackageFormParts {
   form: HTMLFormElement
   input: HTMLInputElement
-  /** Buttons whose `data-sample` holds a package link. */
+  /** Buttons whose `data-sample` holds a package link, or a path on this site, `/samples/quiz.h5p`. */
   samples: HTMLButtonElement[]
 }
 
@@ -25,7 +25,8 @@ export function initPackageForm({ form, input, samples }: PackageFormParts, { pr
 
   for (const sample of samples) {
     sample.addEventListener('click', () => {
-      input.value = sample.dataset.sample ?? ''
+      // A path becomes a link on this origin, so a local build previews its own copy of the sample.
+      input.value = new URL(sample.dataset.sample ?? '', location.href).href
       form.requestSubmit()
     })
   }

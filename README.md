@@ -1,7 +1,20 @@
-# embed-my.org
+# embed-my.github.io
 
-The Embed My website: one page that turns a link to an H5P package into an iframe snippet, with a live preview.
-Guides for people embedding activities live in [embed-my/.github](https://github.com/embed-my/.github/tree/main/docs).
+The player origin of Embed My: what a snippet points at. The site people use to make a snippet is
+[embed-my.org](https://embed-my.org/), in [embed-my/website](https://github.com/embed-my/website).
+
+| Path | What it serves |
+|---|---|
+| `/h5p?src=<package url>` | The player page the snippet frames: the player alone, driven by the query string |
+| `/h5p-resizer.js` | The sizing script the snippet's second line names |
+| `/samples/*.h5p` | The three demo packages the site offers (CC0 and CC BY) |
+| `/` | A landing page that says all this and links to the site |
+
+It has no custom domain, on purpose. A GitHub Pages address stays with the project for as long as it
+exists, with nothing to renew and nothing anyone else can register, so every snippet ever pasted
+keeps working. It is also an origin apart from the site's: a package's scripts run here and not
+where the snippet is written. GitHub's redirect from a Pages address to a custom domain carries no
+CORS header, so a custom domain here would stop frames fetching the samples; keep `CNAME` out of `public/`.
 
 ## Develop
 
@@ -9,38 +22,37 @@ Needs Node 22.12 or later and pnpm (its version is pinned in `package.json`).
 
 ```bash
 pnpm install
-pnpm dev         # dev server, http://localhost:5173
-pnpm test        # unit tests (Vitest)
+pnpm dev         # dev server, http://localhost:5173/h5p?src=http://localhost:5173/samples/quiz.h5p
 pnpm typecheck   # TypeScript, no output
 pnpm build       # type-check, then build into dist/
 pnpm preview     # serve dist/, http://localhost:4173
+pnpm e2e         # browser tests against dist/ (build first; once per machine: pnpm exec playwright install chromium)
 ```
 
-The preview frames this site's own player page, `/h5p`, so on the dev server it plays through the local build.
-To frame another player instead, put its address in `VITE_PLAYER_URL` in `.env.local`. The player is the
-`@missing-elements/h5p-offline-player` package; it names its worker and frame assets relative to its own module,
-and Vite emits them into `dist/assets/` with everything else.
-
-## Where things are
+The player is `@missing-elements/h5p-offline-player` (MIT). The H5P runtime it loads inside the frame is
+`@missing-elements/h5p-runtime` (GPL-3.0), a package of its own since player 0.5: `src/h5p-page.ts` hands its
+`runtime` export to the element before setting `src`. Both name their files relative to their own modules, and
+Vite emits them into `dist/assets/` with everything else; the runtime's licence and notice are emitted beside
+them as `assets/runtime-LICENSE.txt` and `assets/runtime-NOTICE.txt`, which the landing page links to.
 
 | Path | What it holds |
 |---|---|
-| `index.html` | The page's markup and its icon sprite |
-| `h5p.html`, `src/h5p-page.ts` | The player page the snippet frames: the player alone, driven by the query string |
-| `src/main.ts` | Wires the page together; every element lookup is here |
-| `src/config.ts` | The origin the snippet points at, the page the preview frames, the formats |
-| `src/snippet.ts` | Builds the embed address and the snippet; touches no DOM |
-| `src/resizer.ts` | Reads the H5P resizer messages the preview frame sends |
-| `src/ui/` | One module per part of the page: package form, preview, options, snippet board, theme switch |
-| `src/styles/` | `main.css` imports the fonts, the tokens, then one file per part of the page |
-| `public/` | Copied into the build as it is: `CNAME`, `logo.svg` (the full logo), `favicon.svg` (its mark alone, also the header logo), `h5p-resizer.js` (the sizing script the snippet names) |
+| `h5p.html`, `src/h5p-page.ts`, `src/styles/h5p-page.css` | The player page: query string in, resizer protocol and xAPI relay out |
+| `index.html`, `404.html`, `src/styles/origin.css` | The landing page and the not-found page |
+| `src/ui/dom.ts` | Element lookup that fails loudly when the markup and the script drift apart |
+| `public/` | Copied into the build as it is: `h5p-resizer.js`, `samples/`, `favicon.svg`, `robots.txt` |
+| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, a framing page gets its height, the landing page links out |
+| `vite.config.ts` | The pages, each one's Content-Security-Policy, and the runtime notices |
 
-Tests sit next to the code they test. `snippet.test.ts` holds the example from the embedding guide word for word, so
-change the two together. `page.test.ts` checks rules that live in `index.html`: the link field's pattern and the icon
-sprite.
+Each page gets a `Content-Security-Policy` in a `<meta>` tag at build: GitHub Pages sends no headers, so the tag is
+the only policy there is. The dev server gets none, because it injects scripts and styles of its own. The browser
+tests fail on any violation.
 
 ## Deploy
 
-A push to `main` runs `.github/workflows/deploy.yml`: tests, build, then `dist/` goes to GitHub Pages. Pull requests
-get the tests and the build only. Pages has to use **GitHub Actions** as its source (Settings → Pages → Build and
-deployment); the custom domain is kept in those settings, and `public/CNAME` records it in the build.
+A push to `main` runs `.github/workflows/deploy.yml`: build, browser tests, then `dist/` goes to GitHub Pages.
+Pages has to use **GitHub Actions** as its source (Settings → Pages → Build and deployment) and must have **no
+custom domain** set. Actions are pinned to commits; Dependabot keeps the pins and the packages current.
+
+Deploy this origin before the website when both change: the site's preview frames `/h5p` here, and its policy
+allows only this origin as a frame.

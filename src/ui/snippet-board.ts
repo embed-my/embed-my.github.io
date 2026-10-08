@@ -29,7 +29,7 @@ export function createSnippetBoard({ board, label, code, copy, copyLabel }: Snip
     copyLabel.textContent = COPY_LABEL[outcome]
     copy.toggleAttribute('data-done', outcome === 'copied')
     clearTimeout(resetTimer)
-    resetTimer = setTimeout(() => {
+    resetTimer = window.setTimeout(() => {
       copyLabel.textContent = COPY_LABEL.idle
       copy.removeAttribute('data-done')
     }, COPY_FEEDBACK_MS)

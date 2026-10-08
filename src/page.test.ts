@@ -15,7 +15,9 @@ describe('the link field', () => {
   it.each([
     'https://courses.example.edu/activities/week-1-quiz.h5p',
     'https://cdn.example.org/packages/QUIZ.H5P',
-    'https://files.example.com/quiz.h5p?token=abc&expires=1'
+    'https://files.example.com/quiz.h5p?token=abc&expires=1',
+    // The one plain-http address the player runs on: a local build playing its own samples.
+    'http://localhost:4173/samples/quiz.h5p'
   ])('takes %s', (url) => {
     expect(pattern.test(url)).toBe(true)
   })
