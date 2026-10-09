@@ -9,9 +9,8 @@ The player origin of Embed My: what a snippet points at. The site people use to 
 | `/h5p-resizer.js` | The sizing script the snippet's second line names |
 | `/samples/*.h5p` | The three demo packages the site offers (CC0 and CC BY), and `quiz-without-libraries.h5p`, the quiz as H5P.com would export it, which the browser tests play |
 
-It has no custom domain, on purpose. A GitHub Pages address stays with the project for as long as it
-exists, with nothing to renew and nothing anyone else can register, so every snippet ever pasted
-keeps working. It is also an origin apart from the site's: a package's scripts run here and not
+It has no custom domain, on purpose. A GitHub Pages address has nothing to renew and nothing anyone
+else can register, so a pasted snippet does not depend on a domain staying registered. It is also an origin apart from the site's: a package's scripts run here and not
 where the snippet is written. GitHub's redirect from a Pages address to a custom domain carries no
 CORS header, so a custom domain here would stop frames fetching the samples; keep `CNAME` out of `public/`.
 

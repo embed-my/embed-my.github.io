@@ -21,7 +21,7 @@ is a thank-you in the release notes if you want one.
 - The `/h5p` page runs any package a link names, as any H5P site runs the packages uploaded to it. It runs on
   this origin, with storage partitioned per embedding site. What a hostile package can do there is described
   in the [privacy and security guide](https://embed-my.org/docs/privacy-and-security).
-- The pages carry their policy in a `<meta>` tag, written at build, because GitHub Pages sends no security
+- The page carries its policy in a `<meta>` tag, written at build, because GitHub Pages sends no security
   headers. A `<meta>` policy cannot set `frame-ancestors`; `/h5p` is meant to be framed by anyone.
-- This origin has no custom domain, so a snippet keeps working for as long as the project is on GitHub, and a
+- This origin has no custom domain, so a snippet does not depend on a domain staying registered, and a
   package never runs on the website's origin.
