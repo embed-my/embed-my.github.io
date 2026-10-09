@@ -1,3 +1,0 @@
-# The player origin: frames and files for embeds, nothing to index. The site is https://embed-my.org/.
-User-agent: *
-Disallow: /
