@@ -8,7 +8,6 @@ The player origin of Embed My: what a snippet points at. The site people use to 
 | `/h5p?src=<package url>` | The player page the snippet frames: the player alone, driven by the query string. Upward it speaks the resizer protocol, and posts one `report` on what it learnt about the package, or the `error` that stopped it |
 | `/h5p-resizer.js` | The sizing script the snippet's second line names |
 | `/samples/*.h5p` | The three demo packages the site offers (CC0 and CC BY), and `quiz-without-libraries.h5p`, the quiz as H5P.com would export it, which the browser tests play |
-| `/` | A landing page that says all this and links to the site |
 
 It has no custom domain, on purpose. A GitHub Pages address stays with the project for as long as it
 exists, with nothing to renew and nothing anyone else can register, so every snippet ever pasted
@@ -33,7 +32,7 @@ The player is `@missing-elements/h5p-offline-player` (MIT). The H5P runtime it l
 `@missing-elements/h5p-runtime` (GPL-3.0), a package of its own since player 0.5: `src/h5p-page.ts` hands its
 `runtime` export to the element before setting `src`. Both name their files relative to their own modules, and
 Vite emits them into `dist/assets/` with everything else; the runtime's licence and notice are emitted beside
-them as `assets/runtime-LICENSE.txt` and `assets/runtime-NOTICE.txt`, which the landing page links to.
+them as `assets/runtime-LICENSE.txt` and `assets/runtime-NOTICE.txt`.
 
 A package exported without its libraries, as H5P.com and h5p.org export them, gets them from
 `@missing-elements/h5p-libraries`: one `.h5p` with the H5P hub's libraries for every content type it serves, about
@@ -44,14 +43,12 @@ third party by itself, and only then. The bundle's licence list is emitted as `a
 
 | Path | What it holds |
 |---|---|
-| `h5p.html`, `src/h5p-page.ts`, `src/styles/h5p-page.css` | The player page: query string in, resizer protocol and xAPI relay out |
-| `index.html`, `404.html`, `src/styles/origin.css` | The landing page and the not-found page |
-| `src/ui/dom.ts` | Element lookup that fails loudly when the markup and the script drift apart |
-| `public/` | Copied into the build as it is: `h5p-resizer.js`, `samples/`, `favicon.svg`, `robots.txt` |
-| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error, the landing page links out |
-| `vite.config.ts` | The pages, each one's Content-Security-Policy, and the runtime notices |
+| `h5p.html`, `src/h5p-page.ts`, `src/styles/h5p-page.css` | The player page: query string in; resizer protocol, report and xAPI relay out |
+| `public/` | Copied into the build as it is: `h5p-resizer.js` and `samples/` |
+| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error |
+| `vite.config.ts` | The page, its Content-Security-Policy, and the licence files |
 
-Each page gets a `Content-Security-Policy` in a `<meta>` tag at build: GitHub Pages sends no headers, so the tag is
+The page gets a `Content-Security-Policy` in a `<meta>` tag at build: GitHub Pages sends no headers, so the tag is
 the only policy there is. The dev server gets none, because it injects scripts and styles of its own. The browser
 tests fail on any violation.
 

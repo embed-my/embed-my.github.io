@@ -17,7 +17,7 @@ export default defineConfig({
   },
   webServer: {
     command: 'pnpm exec vite preview --port 4173 --strictPort',
-    url: 'http://localhost:4173/',
+    url: 'http://localhost:4173/h5p-resizer.js',
     reuseExistingServer: !process.env.CI
   }
 })

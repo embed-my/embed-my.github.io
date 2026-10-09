@@ -1,7 +1,6 @@
 import '@missing-elements/h5p-offline-player'
 import libraries from '@missing-elements/h5p-libraries/libraries.h5p?url'
 import { runtime } from '@missing-elements/h5p-runtime'
-import { byId } from './ui/dom'
 
 /**
  * The player page, `/h5p`: the player alone, driven by the query string, for the iframe the
@@ -38,14 +37,21 @@ interface ReadyDetail {
   libraryBundle: { url: string; origin: string; fromCache: boolean } | null
 }
 
+/** The element with this id; fails loudly when the markup and this script drift apart. */
+const byId = (id: string): HTMLElement => {
+  const element = document.getElementById(id)
+  if (!element) throw new Error(`#${id} is missing from the page`)
+  return element
+}
+
 const params = new URLSearchParams(location.search)
-const player = byId('player', HTMLElement) as PlayerElement
+const player = byId('player') as PlayerElement
 // The H5P runtime the frame loads is a package of its own (GPL-3.0, apart from the MIT player);
 // the element only names its files, and has to be told where they are before a package is set.
 // Vite emits them as hashed assets beside everything else, and `runtime` carries those addresses.
 player.runtime = runtime
-const notice = byId('notice', HTMLElement)
-const loader = byId('loader', HTMLElement)
+const notice = byId('notice')
+const loader = byId('loader')
 const framed = window.parent !== window
 
 /* ------------------------------------------------------------------ notices */

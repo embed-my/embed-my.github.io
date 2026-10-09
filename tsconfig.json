@@ -24,7 +24,6 @@
   },
   "include": [
     "src/h5p-page.ts",
-    "src/ui/dom.ts",
     "e2e",
     "playwright.config.ts",
     "vite.config.ts"

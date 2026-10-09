@@ -62,7 +62,7 @@ test('a package exported without its libraries plays from the bundle', async ({ 
 /**
  * Serves a page that frames the player at `/framing.html` on the test server's origin and opens
  * it. Served rather than `setContent`: a frame under `about:blank` gets no Service Worker, and
- * the origin's own pages carry a policy that allows no frame and no inline script. The page
+ * the player page's policy allows no inline script. The page
  * keeps every message the frame posts that is not the resizer's, in `window.reports`.
  */
 async function framingPage(page: Page, baseURL: string | undefined, body: string): Promise<void> {
@@ -109,13 +109,4 @@ test('a page that frames a package no browser can fetch is told so', async ({ pa
   await expect.poll(() => reports(page), { timeout: 30_000 }).toMatchObject([
     { action: 'error', code: expect.stringMatching(/^(network|no-cors|bad-archive)$/) }
   ])
-})
-
-test('the landing page points at the site', async ({ page }) => {
-  const problems = watchConsole(page)
-  await page.goto('/')
-  await expect(page.getByRole('link', { name: 'embed-my.org' })).toHaveAttribute('href', 'https://embed-my.org/')
-  await expect(page.getByRole('link', { name: 'licence', exact: true })).toHaveAttribute('href', '/assets/runtime-LICENSE.txt')
-  await expect(page.getByRole('link', { name: "each library's licence" })).toHaveAttribute('href', '/assets/libraries-LICENSES.txt')
-  expect(problems, problems.join('\n')).toEqual([])
 })
