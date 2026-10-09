@@ -13,13 +13,29 @@ import { byId } from './ui/dom'
  *
  * Upward it speaks H5P's own resizer protocol, the `hello` / `resize` exchange h5p.org's embed
  * code uses, so `/h5p-resizer.js` on the embedding page sizes the frame, and a page that already
- * has h5p.org's own `h5p-resizer.js` needs nothing more. xAPI statements are relayed to the
- * parent only when `xapi=` names its origin, and are posted to that origin only.
+ * has h5p.org's own `h5p-resizer.js` needs nothing more. Once the content is up it posts one
+ * `report` with what the player learnt about the package (see `report` below), and a load that
+ * fails posts its `error`; both carry nothing the embedding page did not already hand over.
+ * xAPI statements are relayed to the parent only when `xapi=` names its origin, and are posted
+ * to that origin only.
  */
 
 interface PlayerElement extends HTMLElement {
   state: string
   runtime: typeof runtime | null
+}
+
+/** What the player says about the package once it plays; the `ready` event's detail, see its README. */
+interface ReadyDetail {
+  source: { type: 'range-http' | 'chunked' | 'file'; size: number | null } | null
+  metadata: {
+    title?: string
+    license?: string
+    licenseVersion?: string
+    authors?: Array<{ name: string; role?: string }>
+    mainLibrary?: string
+  } | null
+  libraryBundle: { url: string; origin: string; fromCache: boolean } | null
 }
 
 const params = new URLSearchParams(location.search)
@@ -85,6 +101,40 @@ post({ context: 'h5p', action: 'hello' })
 player.addEventListener('resize', () => requestAnimationFrame(announce))
 player.addEventListener('ready', () => requestAnimationFrame(announce))
 
+/* ------------------------------------------------------------------ the report, upward */
+
+/**
+ * What the player learnt about the package, for the embedding page to show: whether the host
+ * streamed it or made the browser download it whole (`source.type`), how big it is, what it says
+ * it is (`metadata`), where libraries it did not carry came from (`libraryBundle`, `null` when it
+ * carried its own), and how long it took here. Posted once, when the content is up, in the shape
+ *
+ *   { context: 'h5p-offline-player', action: 'report', source, metadata, libraryBundle, elapsedMs }
+ *
+ * and to any parent, like the heights: the parent named the package, and the manifest's strings
+ * are the package's own to tell. A parent treats them as text. A load that fails before the
+ * content is up posts `{ context: 'h5p-offline-player', action: 'error', code, message }` instead.
+ */
+let startedAt = 0
+
+player.addEventListener('ready', (event) => {
+  const { source, metadata, libraryBundle } = (event as CustomEvent<ReadyDetail>).detail
+  post({
+    context: 'h5p-offline-player',
+    action: 'report',
+    source: source && { type: source.type, size: source.size },
+    metadata: metadata && {
+      title: metadata.title,
+      license: metadata.license,
+      licenseVersion: metadata.licenseVersion,
+      authors: metadata.authors?.map(({ name }) => name),
+      mainLibrary: metadata.mainLibrary
+    },
+    libraryBundle,
+    elapsedMs: Math.round(performance.now() - startedAt)
+  })
+})
+
 /* ------------------------------------------------------------------ xAPI, relayed on request */
 
 /** An origin, or nothing: the parameter has to be exactly what `event.origin` will read. */
@@ -118,6 +168,7 @@ player.addEventListener('error', (event) => {
       href: location.href,
       text: 'Open it on its own'
     })
+    post({ context: 'h5p-offline-player', action: 'error', code, message })
     return
   }
   // Once the content is up, a runtime error inside it is the content's business: it keeps
@@ -127,6 +178,7 @@ player.addEventListener('error', (event) => {
     return
   }
   say(message || code, 'error')
+  post({ context: 'h5p-offline-player', action: 'error', code, message })
 })
 
 player.addEventListener('statechange', (event) => {
@@ -184,6 +236,7 @@ const start = (value: string) => {
   if (sources && sources !== 'none') player.setAttribute('libraries', sources)
   if (params.get('preload') === 'auto') player.setAttribute('preload', 'auto')
   applyOptions()
+  startedAt = performance.now()
   player.setAttribute('src', value)
 }
 

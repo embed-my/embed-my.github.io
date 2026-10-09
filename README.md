@@ -5,7 +5,7 @@ The player origin of Embed My: what a snippet points at. The site people use to 
 
 | Path | What it serves |
 |---|---|
-| `/h5p?src=<package url>` | The player page the snippet frames: the player alone, driven by the query string |
+| `/h5p?src=<package url>` | The player page the snippet frames: the player alone, driven by the query string. Upward it speaks the resizer protocol, and posts one `report` on what it learnt about the package, or the `error` that stopped it |
 | `/h5p-resizer.js` | The sizing script the snippet's second line names |
 | `/samples/*.h5p` | The three demo packages the site offers (CC0 and CC BY), and `quiz-without-libraries.h5p`, the quiz as H5P.com would export it, which the browser tests play |
 | `/` | A landing page that says all this and links to the site |
@@ -48,7 +48,7 @@ third party by itself, and only then. The bundle's licence list is emitted as `a
 | `index.html`, `404.html`, `src/styles/origin.css` | The landing page and the not-found page |
 | `src/ui/dom.ts` | Element lookup that fails loudly when the markup and the script drift apart |
 | `public/` | Copied into the build as it is: `h5p-resizer.js`, `samples/`, `favicon.svg`, `robots.txt` |
-| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, a framing page gets its height, the landing page links out |
+| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error, the landing page links out |
 | `vite.config.ts` | The pages, each one's Content-Security-Policy, and the runtime notices |
 
 Each page gets a `Content-Security-Policy` in a `<meta>` tag at build: GitHub Pages sends no headers, so the tag is

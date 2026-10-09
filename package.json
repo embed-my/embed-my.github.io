@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@missing-elements/h5p-libraries": "^0.1.0",
-    "@missing-elements/h5p-offline-player": "^0.5.0",
+    "@missing-elements/h5p-offline-player": "^0.5.1",
     "@missing-elements/h5p-runtime": "^0.1.0"
   }
 }

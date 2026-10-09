@@ -59,9 +59,30 @@ test('a package exported without its libraries plays from the bundle', async ({ 
   expect(problems, problems.join('\n')).toEqual([])
 })
 
-test('a page that frames it gets a hello and a height', async ({ page, baseURL }) => {
-  // A page of the same origin as the test server, with the snippet's two lines in it.
-  await page.setContent(
+/**
+ * Serves a page that frames the player at `/framing.html` on the test server's origin and opens
+ * it. Served rather than `setContent`: a frame under `about:blank` gets no Service Worker, and
+ * the origin's own pages carry a policy that allows no frame and no inline script. The page
+ * keeps every message the frame posts that is not the resizer's, in `window.reports`.
+ */
+async function framingPage(page: Page, baseURL: string | undefined, body: string): Promise<void> {
+  await page.route('**/framing.html', (route) =>
+    route.fulfill({
+      contentType: 'text/html',
+      body: `<!doctype html><meta charset="utf-8">${body}
+        <script>window.reports = []; addEventListener('message', (e) => { if (e.data?.context === 'h5p-offline-player') window.reports.push(e.data) })</script>`
+    })
+  )
+  await page.goto(`${baseURL}/framing.html`)
+}
+
+const reports = (page: Page) => page.evaluate(() => (window as unknown as { reports: Record<string, unknown>[] }).reports)
+
+test('a page that frames it gets a hello, a height and a report', async ({ page, baseURL }) => {
+  // The snippet's two lines, on a page of the same origin as the test server.
+  await framingPage(
+    page,
+    baseURL,
     `<iframe id="f" src="${baseURL}/h5p?src=${baseURL}${SAMPLE}" style="width: 100%; min-height: 100px; border: 0"></iframe>
      <script src="${baseURL}/h5p-resizer.js"></script>`
   )
@@ -69,6 +90,25 @@ test('a page that frames it gets a hello and a height', async ({ page, baseURL }
   await expect.poll(async () => page.locator('#f').evaluate((element) => Number.parseInt((element as HTMLElement).style.height, 10)), {
     timeout: 30_000
   }).toBeGreaterThan(200)
+
+  // The report: what the player learnt, in the shape the website reads (website, `src/report.ts`).
+  await expect.poll(async () => (await reports(page)).length).toBe(1)
+  const [report] = await reports(page)
+  expect(report).toMatchObject({
+    action: 'report',
+    source: { type: 'range-http', size: expect.any(Number) },
+    metadata: { title: 'Do you know what just happened?', license: 'CC0 1.0', authors: ['missing-elements'], mainLibrary: 'H5P.QuestionSet' },
+    libraryBundle: null,
+    elapsedMs: expect.any(Number)
+  })
+})
+
+test('a page that frames a package no browser can fetch is told so', async ({ page, baseURL }) => {
+  // `/nothing.h5p` is a 404 on this origin: the fetch fails before the content is up, and the frame says why.
+  await framingPage(page, baseURL, `<iframe id="f" src="${baseURL}/h5p?src=${baseURL}/samples/nothing.h5p"></iframe>`)
+  await expect.poll(() => reports(page), { timeout: 30_000 }).toMatchObject([
+    { action: 'error', code: expect.stringMatching(/^(network|no-cors|bad-archive)$/) }
+  ])
 })
 
 test('the landing page points at the site', async ({ page }) => {
