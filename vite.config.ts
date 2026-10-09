@@ -72,19 +72,23 @@ function cspMeta(): Plugin {
 }
 
 /**
- * The runtime's licence and notice, served beside its files. The runtime is GPL-3.0 and asks that
- * the two travel with copies of it; Vite emits its scripts and fonts as hashed assets and would
+ * The runtime's licence and notice, and the library bundle's licence list, served beside their
+ * files. The runtime is GPL-3.0 and asks that the two travel with copies of it, and the bundle's
+ * libraries ask the same; Vite emits scripts, fonts and the bundle as hashed assets and would
  * leave the text files behind. The landing page links to them.
  */
 function runtimeNotices(): Plugin {
-  const dist = new URL('./node_modules/@missing-elements/h5p-runtime/dist/', import.meta.url)
+  const runtime = new URL('./node_modules/@missing-elements/h5p-runtime/dist/', import.meta.url)
+  const libraries = new URL('./node_modules/@missing-elements/h5p-libraries/', import.meta.url)
   return {
     name: 'embed-my:runtime-notices',
     apply: 'build',
     generateBundle() {
       for (const file of ['LICENSE.txt', 'NOTICE.txt']) {
-        this.emitFile({ type: 'asset', fileName: `assets/runtime-${file}`, source: readFileSync(new URL(file, dist)) })
+        this.emitFile({ type: 'asset', fileName: `assets/runtime-${file}`, source: readFileSync(new URL(file, runtime)) })
       }
+      // The library bundle's licences, each library's own, which ask to travel with its code.
+      this.emitFile({ type: 'asset', fileName: 'assets/libraries-LICENSES.txt', source: readFileSync(new URL('libraries.txt', libraries)) })
     }
   }
 }

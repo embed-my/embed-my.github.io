@@ -7,7 +7,7 @@ The player origin of Embed My: what a snippet points at. The site people use to 
 |---|---|
 | `/h5p?src=<package url>` | The player page the snippet frames: the player alone, driven by the query string |
 | `/h5p-resizer.js` | The sizing script the snippet's second line names |
-| `/samples/*.h5p` | The three demo packages the site offers (CC0 and CC BY) |
+| `/samples/*.h5p` | The three demo packages the site offers (CC0 and CC BY), and `quiz-without-libraries.h5p`, the quiz as H5P.com would export it, which the browser tests play |
 | `/` | A landing page that says all this and links to the site |
 
 It has no custom domain, on purpose. A GitHub Pages address stays with the project for as long as it
@@ -34,6 +34,13 @@ The player is `@missing-elements/h5p-offline-player` (MIT). The H5P runtime it l
 `runtime` export to the element before setting `src`. Both name their files relative to their own modules, and
 Vite emits them into `dist/assets/` with everything else; the runtime's licence and notice are emitted beside
 them as `assets/runtime-LICENSE.txt` and `assets/runtime-NOTICE.txt`, which the landing page links to.
+
+A package exported without its libraries, as H5P.com and h5p.org export them, gets them from
+`@missing-elements/h5p-libraries`: one `.h5p` with the H5P hub's libraries for every content type it serves, about
+10 MB, which Vite emits as a hashed asset and the page names as the player's default `libraries` source, with the
+hub (`api.h5p.org`) behind it for a type the bundle lacks. That hub request is the only request the page makes to a
+third party by itself, and only then. The bundle's licence list is emitted as `assets/libraries-LICENSES.txt`.
+`&libraries=` in the query string overrides the sources; `&libraries=none` turns them off.
 
 | Path | What it holds |
 |---|---|

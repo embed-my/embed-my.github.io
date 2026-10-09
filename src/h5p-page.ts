@@ -1,4 +1,5 @@
 import '@missing-elements/h5p-offline-player'
+import libraries from '@missing-elements/h5p-libraries/libraries.h5p?url'
 import { runtime } from '@missing-elements/h5p-runtime'
 import { byId } from './ui/dom'
 
@@ -8,7 +9,7 @@ import { byId } from './ui/dom'
  *
  *   /h5p?src=<package url>[&frame][&copyright][&export][&icon][&reporting][&fullscreen=off]
  *       [&xapi=<parent origin>][&activity-id=<IRI>][&custom-css=<stylesheet url>]
- *       [&libraries=hub|<url>][&preload=auto]
+ *       [&libraries=<sources>][&preload=auto]
  *
  * Upward it speaks H5P's own resizer protocol, the `hello` / `resize` exchange h5p.org's embed
  * code uses, so `/h5p-resizer.js` on the embedding page sizes the frame, and a page that already
@@ -168,9 +169,19 @@ const applyOptions = () => {
   }
 }
 
+/**
+ * Where a package that ships without its libraries gets them. Exports from H5P.com and h5p.org
+ * routinely carry `content/` and nothing else, so without this they would be refused. The bundle
+ * is the H5P hub's libraries for every content type it serves, served from this origin (emitted
+ * by Vite beside the player's files; its licences are `assets/libraries-LICENSES.txt`); the hub
+ * itself is asked only for a type the bundle lacks, which is the one request to a third party the
+ * page can make on its own. `&libraries=` overrides, `&libraries=none` turns it off.
+ */
+const DEFAULT_LIBRARIES = `${libraries} hub`
+
 const start = (value: string) => {
-  const libraries = params.get('libraries')?.trim()
-  if (libraries) player.setAttribute('libraries', libraries)
+  const sources = params.get('libraries')?.trim() ?? DEFAULT_LIBRARIES
+  if (sources && sources !== 'none') player.setAttribute('libraries', sources)
   if (params.get('preload') === 'auto') player.setAttribute('preload', 'auto')
   applyOptions()
   player.setAttribute('src', value)
