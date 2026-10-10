@@ -27,25 +27,28 @@ pnpm preview     # serve dist/, http://localhost:4173
 pnpm e2e         # browser tests against dist/ (build first; once per machine: pnpm exec playwright install chromium)
 ```
 
-The player is `@missing-elements/h5p-offline-player` (MIT). The H5P runtime it loads inside the frame is
-`@missing-elements/h5p-runtime` (GPL-3.0), a package of its own since player 0.5: `src/h5p-page.ts` hands its
-`runtime` export to the element before setting `src`. Both name their files relative to their own modules, and
+The page is [`@missing-elements/h5p-embed`](https://github.com/missing-elements/h5p-offline-player/tree/main/packages/embed#readme)'s
+embed page (MIT): `src/h5p-page.ts` calls its `startEmbed()` with this origin's options, and the package does the
+rest: the query string, the resizer protocol, the `report` and `error` messages the website reads, and the xAPI
+relay. The sizing script is the package's `resizer.js`, copied to `/h5p-resizer.js` at build. The player is
+`@missing-elements/h5p-offline-player` (MIT). The H5P runtime it loads inside the frame is
+`@missing-elements/h5p-runtime` (GPL-3.0): `src/h5p-page.ts` hands its `runtime` export to `startEmbed()`. Both name their files relative to their own modules, and
 Vite emits them into `dist/assets/` with everything else; the runtime's licence and notice are emitted beside
 them as `assets/runtime-LICENSE.txt` and `assets/runtime-NOTICE.txt`.
 
 A package exported without its libraries, as H5P.com and h5p.org export them, gets them from
 `@missing-elements/h5p-libraries`: one `.h5p` with the H5P hub's libraries for every content type it serves, about
-10 MB, which Vite emits as a hashed asset and the page names as the player's default `libraries` source, with the
+10 MB, which Vite emits as a hashed asset and the page uses by default (`defaultLibraries: 'pack'`), with the
 hub (`api.h5p.org`) behind it for a type the bundle lacks. That hub request is the only request the page makes to a
 third party by itself, and only then. The bundle's licence list is emitted as `assets/libraries-LICENSES.txt`.
 `&libraries=` in the query string overrides the sources; `&libraries=none` turns them off.
 
 | Path | What it holds |
 |---|---|
-| `h5p.html`, `src/h5p-page.ts`, `src/styles/h5p-page.css` | The player page: query string in; resizer protocol, report and xAPI relay out |
-| `public/` | Copied into the build as it is: `h5p-resizer.js` and `samples/` |
+| `h5p.html`, `src/h5p-page.ts` | The player page: `@missing-elements/h5p-embed`'s embed page, started with this origin's options |
+| `public/samples/` | The sample packages, copied into the build as they are |
 | `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error |
-| `vite.config.ts` | The page, its Content-Security-Policy, and the licence files |
+| `vite.config.ts` | The page, its Content-Security-Policy, `h5p-resizer.js` and the licence files, copied from their packages |
 
 The page gets a `Content-Security-Policy` in a `<meta>` tag at build: GitHub Pages sends no headers, so the tag is
 the only policy there is. The dev server gets none, because it injects scripts and styles of its own. The browser

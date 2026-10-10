@@ -58,18 +58,21 @@ function cspMeta(): Plugin {
 }
 
 /**
- * The runtime's licence and notice, and the library bundle's licence list, served beside their
- * files. The runtime is GPL-3.0 and asks that the two travel with copies of it, and the bundle's
- * libraries ask the same; Vite emits scripts, fonts and the bundle as hashed assets and would
- * leave the text files behind.
+ * The files that are not modules, copied from their packages: `h5p-resizer.js`, the sizing script
+ * the snippet's second line names, from `@missing-elements/h5p-embed`; and the runtime's licence and
+ * notice and the library bundle's licence list, served beside their files. The runtime is GPL-3.0
+ * and asks that the two travel with copies of it, and the bundle's libraries ask the same; Vite
+ * emits scripts, fonts and the bundle as hashed assets and would leave the text files behind.
  */
-function runtimeNotices(): Plugin {
+function packageFiles(): Plugin {
   const runtime = new URL('./node_modules/@missing-elements/h5p-runtime/dist/', import.meta.url)
   const libraries = new URL('./node_modules/@missing-elements/h5p-libraries/', import.meta.url)
+  const embed = new URL('./node_modules/@missing-elements/h5p-embed/site/', import.meta.url)
   return {
-    name: 'embed-my:runtime-notices',
+    name: 'embed-my:package-files',
     apply: 'build',
     generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'h5p-resizer.js', source: readFileSync(new URL('resizer.js', embed)) })
       for (const file of ['LICENSE.txt', 'NOTICE.txt']) {
         this.emitFile({ type: 'asset', fileName: `assets/runtime-${file}`, source: readFileSync(new URL(file, runtime)) })
       }
@@ -80,7 +83,7 @@ function runtimeNotices(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [cspMeta(), runtimeNotices()],
+  plugins: [cspMeta(), packageFiles()],
   build: {
     rollupOptions: {
       input: { h5p: 'h5p.html' }
