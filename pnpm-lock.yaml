@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@missing-elements/h5p-embed':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.2.1
+        version: 0.2.1
       '@missing-elements/h5p-libraries':
         specifier: ^0.1.0
         version: 0.1.0
       '@missing-elements/h5p-offline-player':
-        specifier: ^0.5.1
-        version: 0.5.1(@missing-elements/h5p-runtime@0.1.0)
+        specifier: ^0.5.3
+        version: 0.5.3(@missing-elements/h5p-runtime@0.1.0)
       '@missing-elements/h5p-runtime':
         specifier: ^0.1.0
         version: 0.1.0
@@ -25,19 +25,19 @@ importers:
         specifier: ^1.64.0
         version: 1.64.0
       '@types/node':
-        specifier: ^26.6.4
-        version: 26.6.4
+        specifier: ^26.6.5
+        version: 26.6.5
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
       vite:
-        specifier: ^8.3.3
-        version: 8.3.3(@types/node@26.6.4)
+        specifier: ^8.3.4
+        version: 8.3.4(@types/node@26.6.5)
 
 packages:
 
-  '@missing-elements/h5p-embed@0.2.0':
-    resolution: {integrity: sha512-RWAmToec683NwvODQCrQA7zl63PkUsVcpa65v5NDbkpTIiwl7VoKGrmxA15j0UajYjjXeNQYTGpTJf8N8qTAlQ==}
+  '@missing-elements/h5p-embed@0.2.1':
+    resolution: {integrity: sha512-C5zPfvqOEu2FUdftlJVNi6sLaKYzIAeLq770O25gpdZTbth5X7gjV0CR+eZqrxiJH+ODcwsk48t04Du0bav2gw==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -45,8 +45,8 @@ packages:
     resolution: {integrity: sha512-ynAO8aYZ5IjxDYTFjwm6d702phPY1b0T1i3EiXoFAOWpqxsDJTCq3VS8a/Z5rpBYLyUxIOLMK9QD5n+tIw0Tcw==}
     engines: {node: '>=20'}
 
-  '@missing-elements/h5p-offline-player@0.5.1':
-    resolution: {integrity: sha512-Vps8JXSnlverjJCMuft86KYJTv7voHK3sAmlKM/iSTR9QF+LH9xTCIuPvf9+r0uYEMhlLIe88+8C82NbHQk1yw==}
+  '@missing-elements/h5p-offline-player@0.5.3':
+    resolution: {integrity: sha512-F4oB5VLEhNYzdtI8Za2KrTsmnZBKE9SOyUId5yC/KTd61HUTpih4C0iNP6R3ZYGnXAVS3FkUQpoAuGN5e1TXvA==}
     engines: {node: '>=20'}
     peerDependencies:
       '@missing-elements/h5p-runtime': ^0.1.0
@@ -159,8 +159,8 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@types/node@26.6.4':
-    resolution: {integrity: sha512-ldVPDCzj7fsaGZrLB0NuHuTvJcsNasysBAqMolr/cgxrLd1xbqxIr3XJiPnHHJUCxj5sNF1vnRj9aWnrVh5Jcg==}
+  '@types/node@26.6.5':
+    resolution: {integrity: sha512-uMzsv9stDdofIZBx4UGh4Z9ZgXnGC9seRDscilBcTHAeOFk67MZg/k9bWVfO+bk4qZmG+l52hRnLwUiH2LnJTg==}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     resolution: {integrity: sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==}
@@ -424,8 +424,8 @@ packages:
   undici-types@8.9.0:
     resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
-  vite@8.3.3:
-    resolution: {integrity: sha512-cTAldKPImjg6c+gk48U19POPn3GCBzZwpdsN8ZMEEcbpes+6/wvfqUd0C2y3qYY4wsj8PwgFwrZ/1jBPVttMSg==}
+  vite@8.3.4:
+    resolution: {integrity: sha512-IftLE8phJhdNRIGNEV4JCCvfNScoZQVfcXaN8TQropWGJtOHcu+iAB9pHcuGvmEb/kddw0LBe/jS8ztdC6xdiQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -469,15 +469,15 @@ packages:
 
 snapshots:
 
-  '@missing-elements/h5p-embed@0.2.0':
+  '@missing-elements/h5p-embed@0.2.1':
     dependencies:
       '@missing-elements/h5p-libraries': 0.1.0
-      '@missing-elements/h5p-offline-player': 0.5.1(@missing-elements/h5p-runtime@0.1.0)
+      '@missing-elements/h5p-offline-player': 0.5.3(@missing-elements/h5p-runtime@0.1.0)
       '@missing-elements/h5p-runtime': 0.1.0
 
   '@missing-elements/h5p-libraries@0.1.0': {}
 
-  '@missing-elements/h5p-offline-player@0.5.1(@missing-elements/h5p-runtime@0.1.0)':
+  '@missing-elements/h5p-offline-player@0.5.3(@missing-elements/h5p-runtime@0.1.0)':
     dependencies:
       '@zip.js/zip.js': 2.23.0
     optionalDependencies:
@@ -540,7 +540,7 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@types/node@26.6.4':
+  '@types/node@26.6.5':
     dependencies:
       undici-types: 8.9.0
 
@@ -737,7 +737,7 @@ snapshots:
 
   undici-types@8.9.0: {}
 
-  vite@8.3.3(@types/node@26.6.4):
+  vite@8.3.4(@types/node@26.6.5):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -745,5 +745,5 @@ snapshots:
       rolldown: 1.2.13
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.6.4
+      '@types/node': 26.6.5
       fsevents: 2.3.3
