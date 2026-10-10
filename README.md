@@ -38,9 +38,10 @@ them as `assets/runtime-LICENSE.txt` and `assets/runtime-NOTICE.txt`.
 
 A package exported without its libraries, as H5P.com and h5p.org export them, gets them from
 `@missing-elements/h5p-libraries`: one `.h5p` with the H5P hub's libraries for every content type it serves, about
-10 MB, which Vite emits as a hashed asset and the page uses by default (`defaultLibraries: 'pack'`), with the
-hub (`api.h5p.org`) behind it for a type the bundle lacks. That hub request is the only request the page makes to a
-third party by itself, and only then. The bundle's licence list is emitted as `assets/libraries-LICENSES.txt`.
+10 MB, which Vite emits as a hashed asset and the page uses by default (`defaultLibraries: 'pack'`). Nothing is
+behind it: since player 0.6 there is no H5P hub fallback, so a content type the pack lacks is reported as missing
+libraries, and the page makes no request to a third party by itself. The bundle's licence list is emitted as
+`assets/libraries-LICENSES.txt`.
 `&libraries=` in the query string overrides the sources; `&libraries=none` turns them off.
 
 | Path | What it holds |

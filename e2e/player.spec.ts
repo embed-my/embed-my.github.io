@@ -38,7 +38,7 @@ test('the player page plays a package', async ({ page, baseURL }) => {
   const frame = page.frameLocator('h5p-player iframe').first()
   await expect(frame.locator('.h5p-content, .h5p-container').first()).toBeVisible()
 
-  // A complete package never costs the library bundle or a request to the hub.
+  // A complete package never costs the library bundle, or a request anywhere else for libraries.
   expect(bundle, 'no library source was asked for').toEqual([])
   expect(problems, problems.join('\n')).toEqual([])
 })
@@ -46,16 +46,22 @@ test('the player page plays a package', async ({ page, baseURL }) => {
 test('a package exported without its libraries plays from the bundle', async ({ page, baseURL }) => {
   const problems = watchConsole(page)
   const bundle: number[] = []
+  const elsewhere: string[] = []
   page.on('response', (response) => {
     if (/\/assets\/libraries-.*\.h5p/.test(response.url())) bundle.push(response.status())
+  })
+  page.on('request', (request) => {
+    if (/api\.h5p\.org|cdn\.jsdelivr\.net/.test(request.url())) elsewhere.push(request.url())
   })
   // The quiz as H5P.com would export it: `content/` and a manifest that names only the main library.
   await page.goto(`/h5p?src=${baseURL}/samples/quiz-without-libraries.h5p`)
   const player = page.locator('h5p-player')
-  await expect(player).toHaveAttribute('libraries', /\/assets\/libraries-.*\.h5p hub$/)
+  // The pack served here, and nothing behind it: the player has no hub to fall back to.
+  await expect(player).toHaveAttribute('libraries', /^\/assets\/libraries-[^ ]*\.h5p$/)
   await expect.poll(async () => player.evaluate((element: HTMLElement & { state?: string }) => element.state), { timeout: 40_000 }).toBe('ready')
   await expect(page.frameLocator('h5p-player iframe').first().locator('.h5p-content, .h5p-container').first()).toBeVisible()
   expect(bundle.length, 'the bundle was fetched from this origin').toBeGreaterThan(0)
+  expect(elsewhere, 'no library source off this origin was asked for').toEqual([])
   expect(problems, problems.join('\n')).toEqual([])
 })
 

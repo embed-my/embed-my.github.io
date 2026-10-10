@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@missing-elements/h5p-embed':
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^0.3.0
+        version: 0.3.0
       '@missing-elements/h5p-libraries':
         specifier: ^0.1.1
         version: 0.1.1
       '@missing-elements/h5p-offline-player':
-        specifier: ^0.5.3
-        version: 0.5.3(@missing-elements/h5p-runtime@0.1.0)
+        specifier: ^0.6.0
+        version: 0.6.0(@missing-elements/h5p-runtime@0.1.0)
       '@missing-elements/h5p-runtime':
         specifier: ^0.1.0
         version: 0.1.0
@@ -36,8 +36,8 @@ importers:
 
 packages:
 
-  '@missing-elements/h5p-embed@0.2.1':
-    resolution: {integrity: sha512-C5zPfvqOEu2FUdftlJVNi6sLaKYzIAeLq770O25gpdZTbth5X7gjV0CR+eZqrxiJH+ODcwsk48t04Du0bav2gw==}
+  '@missing-elements/h5p-embed@0.3.0':
+    resolution: {integrity: sha512-y/Y2Cg71Ho2pO+GTaKYy/tOL1ZrB0twSv1UV9TKW7DKjg1buaIVQBQABbeKeLnZrojgOh9uSS0v9qQxmx94GlQ==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -45,8 +45,8 @@ packages:
     resolution: {integrity: sha512-7/8zoA9weL6gcS6PBLwIqwDiVY16rCZkg4sSWnC77D0t+Aa0FKWm75NYBbuQ9df0Jnt2CLh1Ftkc+27I5mDHWA==}
     engines: {node: '>=20'}
 
-  '@missing-elements/h5p-offline-player@0.5.3':
-    resolution: {integrity: sha512-F4oB5VLEhNYzdtI8Za2KrTsmnZBKE9SOyUId5yC/KTd61HUTpih4C0iNP6R3ZYGnXAVS3FkUQpoAuGN5e1TXvA==}
+  '@missing-elements/h5p-offline-player@0.6.0':
+    resolution: {integrity: sha512-e+MUFewQS7IQ08tGvT3jVIgqqoH/ctomzXn+qreoAEvE0ZvHh8Po/IsO4XxvHf/3EvwGtx0aqRUoh50MM5SLLQ==}
     engines: {node: '>=20'}
     peerDependencies:
       '@missing-elements/h5p-runtime': ^0.1.0
@@ -469,15 +469,15 @@ packages:
 
 snapshots:
 
-  '@missing-elements/h5p-embed@0.2.1':
+  '@missing-elements/h5p-embed@0.3.0':
     dependencies:
       '@missing-elements/h5p-libraries': 0.1.1
-      '@missing-elements/h5p-offline-player': 0.5.3(@missing-elements/h5p-runtime@0.1.0)
+      '@missing-elements/h5p-offline-player': 0.6.0(@missing-elements/h5p-runtime@0.1.0)
       '@missing-elements/h5p-runtime': 0.1.0
 
   '@missing-elements/h5p-libraries@0.1.1': {}
 
-  '@missing-elements/h5p-offline-player@0.5.3(@missing-elements/h5p-runtime@0.1.0)':
+  '@missing-elements/h5p-offline-player@0.6.0(@missing-elements/h5p-runtime@0.1.0)':
     dependencies:
       '@zip.js/zip.js': 2.23.0
     optionalDependencies:

@@ -16,8 +16,9 @@ import { runtime } from '@missing-elements/h5p-runtime'
  *
  * Options, as this origin needs them:
  * - `defaultLibraries: 'pack'`: an export without its libraries (H5P.com, h5p.org) takes them from
- *   the pack served here, then from the H5P hub for a type the pack lacks. Snippets have never
- *   carried `&libraries=`, so this keeps them playing such exports.
+ *   the pack served here, and from nowhere else: the player has no hub fallback since 0.6, so the
+ *   page asks no third party for anything. Snippets have never carried `&libraries=`, so this keeps
+ *   them playing such exports.
  * - `packages` left out: a package from any host plays, which a public tool needs.
  * - `askInOwnFrame: false`: framed, the page never waited for a click, and nothing on this origin
  *   frames it except the browser tests.
