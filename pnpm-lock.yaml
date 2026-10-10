@@ -12,8 +12,8 @@ importers:
         specifier: ^0.2.1
         version: 0.2.1
       '@missing-elements/h5p-libraries':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.1.1
+        version: 0.1.1
       '@missing-elements/h5p-offline-player':
         specifier: ^0.5.3
         version: 0.5.3(@missing-elements/h5p-runtime@0.1.0)
@@ -41,8 +41,8 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  '@missing-elements/h5p-libraries@0.1.0':
-    resolution: {integrity: sha512-ynAO8aYZ5IjxDYTFjwm6d702phPY1b0T1i3EiXoFAOWpqxsDJTCq3VS8a/Z5rpBYLyUxIOLMK9QD5n+tIw0Tcw==}
+  '@missing-elements/h5p-libraries@0.1.1':
+    resolution: {integrity: sha512-7/8zoA9weL6gcS6PBLwIqwDiVY16rCZkg4sSWnC77D0t+Aa0FKWm75NYBbuQ9df0Jnt2CLh1Ftkc+27I5mDHWA==}
     engines: {node: '>=20'}
 
   '@missing-elements/h5p-offline-player@0.5.3':
@@ -471,11 +471,11 @@ snapshots:
 
   '@missing-elements/h5p-embed@0.2.1':
     dependencies:
-      '@missing-elements/h5p-libraries': 0.1.0
+      '@missing-elements/h5p-libraries': 0.1.1
       '@missing-elements/h5p-offline-player': 0.5.3(@missing-elements/h5p-runtime@0.1.0)
       '@missing-elements/h5p-runtime': 0.1.0
 
-  '@missing-elements/h5p-libraries@0.1.0': {}
+  '@missing-elements/h5p-libraries@0.1.1': {}
 
   '@missing-elements/h5p-offline-player@0.5.3(@missing-elements/h5p-runtime@0.1.0)':
     dependencies:
