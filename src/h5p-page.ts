@@ -20,7 +20,9 @@ import { runtime } from '@missing-elements/h5p-runtime'
  *   page asks no third party for anything. Snippets have never carried `&libraries=`, so this keeps
  *   them playing such exports.
  * - `packages` left out: a package from any host plays, which a public tool needs.
- * - `askInOwnFrame: false`: framed, the page never waited for a click, and nothing on this origin
- *   frames it except the browser tests.
+ * - `askInOwnFrame: false`: a page of this origin that frames it gets the package as it is, not
+ *   `untrusted`; nothing on this origin frames it except the browser tests. Framed by another site,
+ *   the storage is that site's own, and a package always plays as it is. Opened on its own, a
+ *   package from another site plays `untrusted` (h5p-embed 0.4): none of its own code runs.
  */
 startEmbed({ librariesPack: libraries, defaultLibraries: 'pack', runtime, askInOwnFrame: false })

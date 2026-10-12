@@ -11,13 +11,14 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? 'github' : 'list',
   use: {
-    baseURL: 'http://localhost:4173',
+    // 127.0.0.1, so the same server is also another site at localhost, for the cross-origin tests.
+    baseURL: 'http://127.0.0.1:4173',
     browserName: 'chromium',
     trace: 'retain-on-failure'
   },
   webServer: {
-    command: 'pnpm exec vite preview --port 4173 --strictPort',
-    url: 'http://localhost:4173/h5p-resizer.js',
+    command: 'pnpm exec vite preview --host 127.0.0.1 --port 4173 --strictPort',
+    url: 'http://127.0.0.1:4173/h5p-resizer.js',
     reuseExistingServer: !process.env.CI
   }
 })

@@ -86,6 +86,21 @@ async function framingPage(page: Page, baseURL: string | undefined, body: string
 
 const reports = (page: Page) => page.evaluate(() => (window as unknown as { reports: Record<string, unknown>[] }).reports)
 
+test('opened on its own, a package from another site plays untrusted, without a click', async ({ page, baseURL }) => {
+  const problems = watchConsole(page)
+  // 127.0.0.1 and localhost are different origins: to this page the package comes from another site.
+  const elsewhere = `${baseURL}${SAMPLE}`.replace('127.0.0.1', 'localhost')
+  await page.goto(`/h5p?src=${elsewhere}`)
+  const player = page.locator('h5p-player')
+  await expect.poll(async () => player.evaluate((element: HTMLElement & { state?: string }) => element.state)).toBe('ready')
+  // Played as data: none of the package's own code, its libraries from the pack served here.
+  expect(await player.evaluate((element: HTMLElement & { untrusted?: boolean }) => element.untrusted)).toBe(true)
+  await expect(player).toHaveAttribute('libraries', /^\/assets\/libraries-[^ ]*\.h5p$/)
+  await expect(page.getByRole('button', { name: 'Open with its own scripts' })).toHaveCount(0)
+  await expect(page.frameLocator('h5p-player iframe').first().locator('.h5p-content, .h5p-container').first()).toBeVisible()
+  expect(problems, problems.join('\n')).toEqual([])
+})
+
 test("H5P's own buttons follow &lang=, and the frame keeps the package's language", async ({ page, baseURL }) => {
   const problems = watchConsole(page)
   await page.goto(`/h5p?src=${baseURL}${SAMPLE}&frame&copyright&lang=de`)

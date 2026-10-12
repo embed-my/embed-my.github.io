@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@missing-elements/h5p-embed':
-        specifier: ^0.3.2
-        version: 0.3.2
+        specifier: ^0.4.0
+        version: 0.4.0
       '@missing-elements/h5p-libraries':
         specifier: ^0.1.1
         version: 0.1.1
       '@missing-elements/h5p-offline-player':
-        specifier: ^0.6.2
-        version: 0.6.2(@missing-elements/h5p-runtime@0.1.2)
+        specifier: ^0.7.0
+        version: 0.7.0(@missing-elements/h5p-runtime@0.1.2)
       '@missing-elements/h5p-runtime':
         specifier: ^0.1.2
         version: 0.1.2
@@ -36,8 +36,8 @@ importers:
 
 packages:
 
-  '@missing-elements/h5p-embed@0.3.2':
-    resolution: {integrity: sha512-ynnoBksTi5Vk4IFgyV8EAj+zhfRulTWhd+iX/RjS/XUzcdiX3IC0aCnUtTdVlZlenP1n0zf4hv3ZE5Betq3lBg==}
+  '@missing-elements/h5p-embed@0.4.0':
+    resolution: {integrity: sha512-HZ/3Sepjp5wadLZjHz1LkgEx0sqF0MB7FBe4Qr6ntZl9wBgt0Bo82MmXD849O65HXrdMUOTgQDWN2A0BNm9wPg==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -45,8 +45,8 @@ packages:
     resolution: {integrity: sha512-7/8zoA9weL6gcS6PBLwIqwDiVY16rCZkg4sSWnC77D0t+Aa0FKWm75NYBbuQ9df0Jnt2CLh1Ftkc+27I5mDHWA==}
     engines: {node: '>=20'}
 
-  '@missing-elements/h5p-offline-player@0.6.2':
-    resolution: {integrity: sha512-25cP2JYe07JM825PVuqihB/Eg/Zdz4+Okq6ov5vlKZuq8+wN/CrHNwWe82m0Jjdsbli5I1y60K65L4vM11Nb2Q==}
+  '@missing-elements/h5p-offline-player@0.7.0':
+    resolution: {integrity: sha512-yyrAJrXsxjPhBRqArhseFpsHNuxsxkLe5j8l8q57dFtanm/hP6ngmuKK5gDYbu2XvzmT37X7od37ouFaHc+WGQ==}
     engines: {node: '>=20'}
     peerDependencies:
       '@missing-elements/h5p-runtime': ^0.1.0
@@ -399,8 +399,8 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  postcss@8.5.29:
-    resolution: {integrity: sha512-49cGhUbXj8Qenv0iTMxA1cFBzxXoctpC9Ujd77t1WcbJIr6nF/eI7g/8MgxrYldFRuAXvja7xQRwavoW7kgrxQ==}
+  postcss@8.5.30:
+    resolution: {integrity: sha512-zkd+e9S1AQHhmaBKye9zlFHWjOwVgqXl1q3ECYy8561K7qxR2cREf/STLskulBFd78k6AOFeA+ff1TtEzk9bAA==}
     engines: {node: ^10 || ^12 || >=14}
 
   rolldown@1.2.13:
@@ -469,15 +469,15 @@ packages:
 
 snapshots:
 
-  '@missing-elements/h5p-embed@0.3.2':
+  '@missing-elements/h5p-embed@0.4.0':
     dependencies:
       '@missing-elements/h5p-libraries': 0.1.1
-      '@missing-elements/h5p-offline-player': 0.6.2(@missing-elements/h5p-runtime@0.1.2)
+      '@missing-elements/h5p-offline-player': 0.7.0(@missing-elements/h5p-runtime@0.1.2)
       '@missing-elements/h5p-runtime': 0.1.2
 
   '@missing-elements/h5p-libraries@0.1.1': {}
 
-  '@missing-elements/h5p-offline-player@0.6.2(@missing-elements/h5p-runtime@0.1.2)':
+  '@missing-elements/h5p-offline-player@0.7.0(@missing-elements/h5p-runtime@0.1.2)':
     dependencies:
       '@zip.js/zip.js': 2.23.0
     optionalDependencies:
@@ -678,7 +678,7 @@ snapshots:
     dependencies:
       playwright-core: 1.64.0
 
-  postcss@8.5.29:
+  postcss@8.5.30:
     dependencies:
       nanoid: 3.3.20
       picocolors: 1.1.1
@@ -741,7 +741,7 @@ snapshots:
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
-      postcss: 8.5.29
+      postcss: 8.5.30
       rolldown: 1.2.13
       tinyglobby: 0.2.17
     optionalDependencies:
