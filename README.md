@@ -46,7 +46,7 @@ click that names its host.
 
 A package exported without its libraries, as H5P.com and h5p.org export them, gets them from
 `@missing-elements/h5p-libraries`: one `.h5p` with the H5P hub's libraries for every content type it serves, about
-10 MB, which Vite emits as a hashed asset and the page uses by default (`defaultLibraries: 'pack'`). Nothing is
+14 MB, which Vite emits as a hashed asset and the page uses by default (`defaultLibraries: 'pack'`). Nothing is
 behind it: since player 0.6 there is no H5P hub fallback, so a content type the pack lacks is reported as missing
 libraries, and the page makes no request to a third party by itself. Since player 0.6.1 the frame upgrades content
 written for an older minor version of a library to the one the pack serves, with that library's `upgrades.js`.
