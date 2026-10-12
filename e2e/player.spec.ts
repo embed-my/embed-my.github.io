@@ -54,6 +54,8 @@ test('a package exported without its libraries plays from the bundle', async ({ 
     if (/api\.h5p\.org|cdn\.jsdelivr\.net/.test(request.url())) elsewhere.push(request.url())
   })
   // The quiz as H5P.com would export it: `content/` and a manifest that names only the main library.
+  // It was written for Question Set 1.20 and the pack serves 1.21, so the frame runs the library's
+  // upgrade steps on it first; a failed upgrade logs a console error, which fails this test.
   await page.goto(`/h5p?src=${baseURL}/samples/quiz-without-libraries.h5p`)
   const player = page.locator('h5p-player')
   // The pack served here, and nothing behind it: the player has no hub to fall back to.
