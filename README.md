@@ -39,7 +39,10 @@ them as `assets/runtime-LICENSE.txt` and `assets/runtime-NOTICE.txt`.
 In a snippet, the frame sits in another site's page, whose storage is that site's own, and a package plays as it is.
 Opened on its own, `/h5p` would put a package from another site in this origin's own storage, so since h5p-embed 0.4
 and player 0.7 it plays it `untrusted`: as data, with none of the package's own code and its libraries from the pack.
-Only a package that cannot play without its own copy of a library waits for a click that names its host.
+Since player 0.8 and h5p-runtime 0.2 its content is also checked against each library's `semantics.json` before it
+is shown, as the H5P CMS plugins check an upload: text keeps only the tags its field allows, and anything the
+semantics do not name is dropped. Only a package that cannot play without its own copy of a library waits for a
+click that names its host.
 
 A package exported without its libraries, as H5P.com and h5p.org export them, gets them from
 `@missing-elements/h5p-libraries`: one `.h5p` with the H5P hub's libraries for every content type it serves, about

@@ -93,7 +93,8 @@ test('opened on its own, a package from another site plays untrusted, without a 
   await page.goto(`/h5p?src=${elsewhere}`)
   const player = page.locator('h5p-player')
   await expect.poll(async () => player.evaluate((element: HTMLElement & { state?: string }) => element.state)).toBe('ready')
-  // Played as data: none of the package's own code, its libraries from the pack served here.
+  // Played as data: none of the package's own code, its libraries from the pack served here, and
+  // its content shown only after the runtime's boot script has checked it against their semantics.
   expect(await player.evaluate((element: HTMLElement & { untrusted?: boolean }) => element.untrusted)).toBe(true)
   await expect(player).toHaveAttribute('libraries', /^\/assets\/libraries-[^ ]*\.h5p$/)
   await expect(page.getByRole('button', { name: 'Open with its own scripts' })).toHaveCount(0)

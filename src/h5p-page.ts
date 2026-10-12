@@ -23,6 +23,7 @@ import { runtime } from '@missing-elements/h5p-runtime'
  * - `askInOwnFrame: false`: a page of this origin that frames it gets the package as it is, not
  *   `untrusted`; nothing on this origin frames it except the browser tests. Framed by another site,
  *   the storage is that site's own, and a package always plays as it is. Opened on its own, a
- *   package from another site plays `untrusted` (h5p-embed 0.4): none of its own code runs.
+ *   package from another site plays `untrusted` (h5p-embed 0.4): none of its own code runs, and
+ *   since the runtime's 0.2 its content is checked against its libraries' semantics first.
  */
 startEmbed({ librariesPack: libraries, defaultLibraries: 'pack', runtime, askInOwnFrame: false })
