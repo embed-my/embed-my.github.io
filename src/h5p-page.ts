@@ -11,7 +11,7 @@ import { runtime } from '@missing-elements/h5p-runtime'
  * upward, the `report` and `error` messages the website's check list reads, and the xAPI relay.
  *
  *   /h5p?src=<package url>[&frame][&copyright][&export][&icon][&reporting][&fullscreen=off]
- *       [&xapi=<parent origin>][&activity-id=<IRI>][&custom-css=<stylesheet url>]
+ *       [&xapi=<parent origin>][&activity-id=<IRI>][&custom-css=<stylesheet url>][&lang=<language tag>]
  *       [&libraries=pack|hub|<url> …|none][&preload=auto]
  *
  * Options, as this origin needs them:

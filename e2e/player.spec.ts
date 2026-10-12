@@ -86,6 +86,20 @@ async function framingPage(page: Page, baseURL: string | undefined, body: string
 
 const reports = (page: Page) => page.evaluate(() => (window as unknown as { reports: Record<string, unknown>[] }).reports)
 
+test("H5P's own buttons follow &lang=, and the frame keeps the package's language", async ({ page, baseURL }) => {
+  const problems = watchConsole(page)
+  await page.goto(`/h5p?src=${baseURL}${SAMPLE}&frame&copyright&lang=de`)
+  const player = page.locator('h5p-player')
+  await expect(player).toHaveAttribute('lang', 'de')
+  await expect.poll(async () => player.evaluate((element: HTMLElement & { state?: string }) => element.state)).toBe('ready')
+  const frame = page.frameLocator('h5p-player iframe').first()
+  // The toolbar's Rights of use button, in German from the runtime's translations.
+  await expect(frame.getByText('Nutzungsrechte')).toBeVisible()
+  // The content itself is English, as its h5p.json says, and the frame document says so to a screen reader.
+  await expect(frame.locator('html')).toHaveAttribute('lang', 'en')
+  expect(problems, problems.join('\n')).toEqual([])
+})
+
 test('a page that frames it gets a hello, a height and a report', async ({ page, baseURL }) => {
   // The snippet's two lines, on a page of the same origin as the test server.
   await framingPage(

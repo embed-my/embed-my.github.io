@@ -41,7 +41,13 @@ A package exported without its libraries, as H5P.com and h5p.org export them, ge
 10 MB, which Vite emits as a hashed asset and the page uses by default (`defaultLibraries: 'pack'`). Nothing is
 behind it: since player 0.6 there is no H5P hub fallback, so a content type the pack lacks is reported as missing
 libraries, and the page makes no request to a third party by itself. Since player 0.6.1 the frame upgrades content
-written for an older minor version of a library to the one the pack serves, with that library's `upgrades.js`. The bundle's licence list is emitted as
+written for an older minor version of a library to the one the pack serves, with that library's `upgrades.js`.
+
+`&lang=<tag>` on the address, `de` or `pt-BR`, puts H5P's own buttons and dialogs in that language, from the
+runtime's translations (player 0.6.2, runtime 0.1.2): more than fifty languages, from Moodle's language packs, in a
+script Vite emits as `assets/l10n-*.js` that the frame fetches only for a language other than English. The page
+cannot read the embedding page's language across origins, so the snippet has to say it. The frame document itself
+takes the package's own language, `defaultLanguage` in its `h5p.json`, for screen readers. The bundle's licence list is emitted as
 `assets/libraries-LICENSES.txt`.
 `&libraries=` in the query string overrides the sources; `&libraries=none` turns them off.
 
