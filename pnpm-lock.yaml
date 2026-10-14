@@ -9,17 +9,17 @@ importers:
   .:
     dependencies:
       '@missing-elements/h5p-embed':
-        specifier: ^0.6.0
-        version: 0.6.0
+        specifier: ^0.6.2
+        version: 0.6.2
       '@missing-elements/h5p-libraries':
         specifier: ^0.2.0
         version: 0.2.0
       '@missing-elements/h5p-offline-player':
-        specifier: ^0.9.0
-        version: 0.9.0(@missing-elements/h5p-runtime@0.2.1)
+        specifier: ^0.9.3
+        version: 0.9.3(@missing-elements/h5p-runtime@0.2.3)
       '@missing-elements/h5p-runtime':
-        specifier: ^0.2.1
-        version: 0.2.1
+        specifier: ^0.2.3
+        version: 0.2.3
     devDependencies:
       '@playwright/test':
         specifier: ^1.64.0
@@ -36,8 +36,8 @@ importers:
 
 packages:
 
-  '@missing-elements/h5p-embed@0.6.0':
-    resolution: {integrity: sha512-3e4el4cAMmzoHabymeFZBU7BCYcBoi4gzcZIQfKoppHPEkHYB1Qd1ksmOnubYVv1lWYLTS/0ny5skc0ruNGttw==}
+  '@missing-elements/h5p-embed@0.6.2':
+    resolution: {integrity: sha512-of1HNCoP8BHx6SAFK5i94wuR6e4oRy54VngdpuD8sRy9ZbiyY9Q6y1WfwMesHpOSF4bIszAkMSxy0EXrYFEfvQ==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -45,8 +45,8 @@ packages:
     resolution: {integrity: sha512-lgfBvZZ427dpNQWSrPOWCrUY9KJrENzQKb7+sy/B/W5jqLraf/vznXfXCRez7oZCJTKCg7qjEWLe6eg761cfSQ==}
     engines: {node: '>=20'}
 
-  '@missing-elements/h5p-offline-player@0.9.0':
-    resolution: {integrity: sha512-k1CnFA6nTQQGJOQdbyAD2b6NhwXIkyIlGgt1nWd9/4brykpxTrsvHkqgLXil0aIXFCA22C05T7TKN93po2SpIQ==}
+  '@missing-elements/h5p-offline-player@0.9.3':
+    resolution: {integrity: sha512-37saUXeUjAIpYJMm/DxPQ0Yn2uYqTsONvxs9QUxMzplNkF3xrgyAYCs0AyAK3iRa5hHxnzJBx1BWmECLhpdl9Q==}
     engines: {node: '>=20'}
     peerDependencies:
       '@missing-elements/h5p-runtime': ^0.2.0
@@ -54,8 +54,8 @@ packages:
       '@missing-elements/h5p-runtime':
         optional: true
 
-  '@missing-elements/h5p-runtime@0.2.1':
-    resolution: {integrity: sha512-51HgJ2oB6vKSbYP7QClLm3k5SRgmYZYbHodd89MWkElEyVfSL4HK6r9PWBgW8tYS0OQuzQRTR3m0dlGkX2+aWA==}
+  '@missing-elements/h5p-runtime@0.2.3':
+    resolution: {integrity: sha512-S91OdbyWoL0KypwWN3hTo9blbBiaoc0lg5kYKii2DXfuXPBZaDBHcHdXdC+ItDV+p81uve7a4SCzEJaIDjnV/w==}
     engines: {node: '>=20'}
 
   '@oxc-project/types@0.153.0':
@@ -469,21 +469,21 @@ packages:
 
 snapshots:
 
-  '@missing-elements/h5p-embed@0.6.0':
+  '@missing-elements/h5p-embed@0.6.2':
     dependencies:
       '@missing-elements/h5p-libraries': 0.2.0
-      '@missing-elements/h5p-offline-player': 0.9.0(@missing-elements/h5p-runtime@0.2.1)
-      '@missing-elements/h5p-runtime': 0.2.1
+      '@missing-elements/h5p-offline-player': 0.9.3(@missing-elements/h5p-runtime@0.2.3)
+      '@missing-elements/h5p-runtime': 0.2.3
 
   '@missing-elements/h5p-libraries@0.2.0': {}
 
-  '@missing-elements/h5p-offline-player@0.9.0(@missing-elements/h5p-runtime@0.2.1)':
+  '@missing-elements/h5p-offline-player@0.9.3(@missing-elements/h5p-runtime@0.2.3)':
     dependencies:
       '@zip.js/zip.js': 2.23.0
     optionalDependencies:
-      '@missing-elements/h5p-runtime': 0.2.1
+      '@missing-elements/h5p-runtime': 0.2.3
 
-  '@missing-elements/h5p-runtime@0.2.1':
+  '@missing-elements/h5p-runtime@0.2.3':
     dependencies:
       h5p-standalone: 3.8.2
 
