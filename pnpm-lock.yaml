@@ -15,8 +15,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       '@missing-elements/h5p-offline-player':
-        specifier: ^0.9.3
-        version: 0.9.3(@missing-elements/h5p-runtime@0.2.3)
+        specifier: ^0.9.4
+        version: 0.9.4(@missing-elements/h5p-runtime@0.2.3)
       '@missing-elements/h5p-runtime':
         specifier: ^0.2.3
         version: 0.2.3
@@ -45,8 +45,8 @@ packages:
     resolution: {integrity: sha512-lgfBvZZ427dpNQWSrPOWCrUY9KJrENzQKb7+sy/B/W5jqLraf/vznXfXCRez7oZCJTKCg7qjEWLe6eg761cfSQ==}
     engines: {node: '>=20'}
 
-  '@missing-elements/h5p-offline-player@0.9.3':
-    resolution: {integrity: sha512-37saUXeUjAIpYJMm/DxPQ0Yn2uYqTsONvxs9QUxMzplNkF3xrgyAYCs0AyAK3iRa5hHxnzJBx1BWmECLhpdl9Q==}
+  '@missing-elements/h5p-offline-player@0.9.4':
+    resolution: {integrity: sha512-xNcTGNgd18+cxarW6Y/rYiFRI2gFzy4T/KLXlB0g7buPmFU/s5F0A27doiNoXRAYBZkSsUgK7s+jBX0DH/CLKA==}
     engines: {node: '>=20'}
     peerDependencies:
       '@missing-elements/h5p-runtime': ^0.2.0
@@ -472,12 +472,12 @@ snapshots:
   '@missing-elements/h5p-embed@0.6.2':
     dependencies:
       '@missing-elements/h5p-libraries': 0.2.0
-      '@missing-elements/h5p-offline-player': 0.9.3(@missing-elements/h5p-runtime@0.2.3)
+      '@missing-elements/h5p-offline-player': 0.9.4(@missing-elements/h5p-runtime@0.2.3)
       '@missing-elements/h5p-runtime': 0.2.3
 
   '@missing-elements/h5p-libraries@0.2.0': {}
 
-  '@missing-elements/h5p-offline-player@0.9.3(@missing-elements/h5p-runtime@0.2.3)':
+  '@missing-elements/h5p-offline-player@0.9.4(@missing-elements/h5p-runtime@0.2.3)':
     dependencies:
       '@zip.js/zip.js': 2.23.0
     optionalDependencies:

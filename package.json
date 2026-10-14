@@ -22,7 +22,7 @@
   "dependencies": {
     "@missing-elements/h5p-embed": "^0.6.2",
     "@missing-elements/h5p-libraries": "^0.2.0",
-    "@missing-elements/h5p-offline-player": "^0.9.3",
+    "@missing-elements/h5p-offline-player": "^0.9.4",
     "@missing-elements/h5p-runtime": "^0.2.3"
   }
 }
