@@ -9,17 +9,17 @@ importers:
   .:
     dependencies:
       '@missing-elements/h5p-embed':
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^1.0.0
+        version: 1.0.0
       '@missing-elements/h5p-libraries':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^1.0.0
+        version: 1.0.0
       '@missing-elements/h5p-offline-player':
-        specifier: ^0.9.4
-        version: 0.9.4(@missing-elements/h5p-runtime@0.2.3)
+        specifier: ^1.0.0
+        version: 1.0.0(@missing-elements/h5p-runtime@1.0.0)
       '@missing-elements/h5p-runtime':
-        specifier: ^0.2.3
-        version: 0.2.3
+        specifier: ^1.0.0
+        version: 1.0.0
     devDependencies:
       '@playwright/test':
         specifier: ^1.64.0
@@ -36,26 +36,26 @@ importers:
 
 packages:
 
-  '@missing-elements/h5p-embed@0.6.2':
-    resolution: {integrity: sha512-of1HNCoP8BHx6SAFK5i94wuR6e4oRy54VngdpuD8sRy9ZbiyY9Q6y1WfwMesHpOSF4bIszAkMSxy0EXrYFEfvQ==}
-    engines: {node: '>=20'}
+  '@missing-elements/h5p-embed@1.0.0':
+    resolution: {integrity: sha512-rovTMt7lPJxnSPdJADCrAJLxP5k8tplyn6OHCMyGSGp4YkY+iHhzsxYTPy7ZLycq6SJaq7b4+k6kQaZ0VYvvhw==}
+    engines: {node: '>=22'}
     hasBin: true
 
-  '@missing-elements/h5p-libraries@0.2.0':
-    resolution: {integrity: sha512-lgfBvZZ427dpNQWSrPOWCrUY9KJrENzQKb7+sy/B/W5jqLraf/vznXfXCRez7oZCJTKCg7qjEWLe6eg761cfSQ==}
+  '@missing-elements/h5p-libraries@1.0.0':
+    resolution: {integrity: sha512-Ii9naBozRohB2THKckOlutgVd4AYoLT7CXQf9hiavDGGGCYfz84a/4scVOC5Mz98ryetI8tar2EjZ5r9zjUDCQ==}
     engines: {node: '>=20'}
 
-  '@missing-elements/h5p-offline-player@0.9.4':
-    resolution: {integrity: sha512-xNcTGNgd18+cxarW6Y/rYiFRI2gFzy4T/KLXlB0g7buPmFU/s5F0A27doiNoXRAYBZkSsUgK7s+jBX0DH/CLKA==}
+  '@missing-elements/h5p-offline-player@1.0.0':
+    resolution: {integrity: sha512-DMxjTabq/awepu3n1KonQZCeTEoUGCHQQO0XA1RLxs6wMdw0wNVZPwekWJWhPejY7oQbY5t/eJlsgMiheHpqpg==}
     engines: {node: '>=20'}
     peerDependencies:
-      '@missing-elements/h5p-runtime': ^0.2.0
+      '@missing-elements/h5p-runtime': ^1.0.0
     peerDependenciesMeta:
       '@missing-elements/h5p-runtime':
         optional: true
 
-  '@missing-elements/h5p-runtime@0.2.3':
-    resolution: {integrity: sha512-S91OdbyWoL0KypwWN3hTo9blbBiaoc0lg5kYKii2DXfuXPBZaDBHcHdXdC+ItDV+p81uve7a4SCzEJaIDjnV/w==}
+  '@missing-elements/h5p-runtime@1.0.0':
+    resolution: {integrity: sha512-gcM5wBnUQoingA1WrF7tnjlobmh0UIhe0WE7KE1hLMpPkpNww1B94Fi+VSc4gTSpmAoR9upT969eaEd0ffZC8g==}
     engines: {node: '>=20'}
 
   '@oxc-project/types@0.153.0':
@@ -304,9 +304,6 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
-  h5p-standalone@3.8.2:
-    resolution: {integrity: sha512-r7eQtTzBk/dbaQZ+tA9XD5FeSmyMxlypRZXudiheCnC8zAT0/zNgUvO4MZtZaznwfYVo98o7do5uxLTUQrxxwg==}
-
   lightningcss-android-arm64@1.33.0:
     resolution: {integrity: sha512-gEpRTalKdosp4Bb8qWtc2iOgE5SeIHlpS1up9bFq2wAyYhl1UdTObYiHe98zEM9SQvSoqQZ1IQD0JNpg3Ml5pg==}
     engines: {node: '>= 12.0.0'}
@@ -469,23 +466,21 @@ packages:
 
 snapshots:
 
-  '@missing-elements/h5p-embed@0.6.2':
+  '@missing-elements/h5p-embed@1.0.0':
     dependencies:
-      '@missing-elements/h5p-libraries': 0.2.0
-      '@missing-elements/h5p-offline-player': 0.9.4(@missing-elements/h5p-runtime@0.2.3)
-      '@missing-elements/h5p-runtime': 0.2.3
+      '@missing-elements/h5p-libraries': 1.0.0
+      '@missing-elements/h5p-offline-player': 1.0.0(@missing-elements/h5p-runtime@1.0.0)
+      '@missing-elements/h5p-runtime': 1.0.0
 
-  '@missing-elements/h5p-libraries@0.2.0': {}
+  '@missing-elements/h5p-libraries@1.0.0': {}
 
-  '@missing-elements/h5p-offline-player@0.9.4(@missing-elements/h5p-runtime@0.2.3)':
+  '@missing-elements/h5p-offline-player@1.0.0(@missing-elements/h5p-runtime@1.0.0)':
     dependencies:
       '@zip.js/zip.js': 2.23.0
     optionalDependencies:
-      '@missing-elements/h5p-runtime': 0.2.3
+      '@missing-elements/h5p-runtime': 1.0.0
 
-  '@missing-elements/h5p-runtime@0.2.3':
-    dependencies:
-      h5p-standalone: 3.8.2
+  '@missing-elements/h5p-runtime@1.0.0': {}
 
   '@oxc-project/types@0.153.0': {}
 
@@ -614,8 +609,6 @@ snapshots:
 
   fsevents@2.3.3:
     optional: true
-
-  h5p-standalone@3.8.2: {}
 
   lightningcss-android-arm64@1.33.0:
     optional: true

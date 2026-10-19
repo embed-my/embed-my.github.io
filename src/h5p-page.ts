@@ -12,7 +12,7 @@ import { runtime } from '@missing-elements/h5p-runtime'
  *
  *   /h5p?src=<package url>[&frame][&copyright][&export][&icon][&reporting][&fullscreen=off]
  *       [&xapi=<parent origin>][&activity-id=<IRI>][&custom-css=<stylesheet url>][&lang=<language tag>]
- *       [&libraries=pack|hub|<url> …|none][&preload=auto]
+ *       [&libraries=pack|<url> …|none][&preload=auto]
  *
  * Options, as this origin needs them:
  * - `defaultLibraries: 'pack'`: an export without its libraries (H5P.com, h5p.org) takes them from
