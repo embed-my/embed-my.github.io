@@ -102,16 +102,18 @@ test('opened on its own, a package from another site plays untrusted, without a 
   expect(problems, problems.join('\n')).toEqual([])
 })
 
-test("H5P's own buttons follow &lang=, and the frame keeps the package's language", async ({ page, baseURL }) => {
+test("H5P's own buttons are in the package's language, whatever &lang= says", async ({ page, baseURL }) => {
   const problems = watchConsole(page)
   await page.goto(`/h5p?src=${baseURL}${SAMPLE}&frame&copyright&lang=de`)
   const player = page.locator('h5p-player')
   await expect(player).toHaveAttribute('lang', 'de')
   await expect.poll(async () => player.evaluate((element: HTMLElement & { state?: string }) => element.state)).toBe('ready')
   const frame = page.frameLocator('h5p-player iframe').first()
-  // The toolbar's Rights of use button, in German from the runtime's translations.
-  await expect(frame.getByText('Nutzungsrechte')).toBeVisible()
-  // The content itself is English, as its h5p.json says, and the frame document says so to a screen reader.
+  // The package names English in its h5p.json, so the toolbar's Rights of use button matches its
+  // text (player 1.1.0); &lang= is for a package that names no language.
+  await expect(frame.getByText('Rights of use')).toBeVisible()
+  await expect(frame.getByText('Nutzungsrechte')).toHaveCount(0)
+  // The frame document says the same to a screen reader.
   await expect(frame.locator('html')).toHaveAttribute('lang', 'en')
   expect(problems, problems.join('\n')).toEqual([])
 })

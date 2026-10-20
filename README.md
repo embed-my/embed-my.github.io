@@ -51,11 +51,12 @@ behind it: since player 0.6 there is no H5P hub fallback, so a content type the 
 libraries, and the page makes no request to a third party by itself. Since player 0.6.1 the frame upgrades content
 written for an older minor version of a library to the one the pack serves, with that library's `upgrades.js`.
 
-`&lang=<tag>` on the address, `de` or `pt-BR`, puts H5P's own buttons and dialogs in that language, from the
-runtime's translations (player 0.6.2, runtime 0.1.2): more than fifty languages, from Moodle's language packs, in a
-script Vite emits as `assets/l10n-*.js` that the frame fetches only for a language other than English. The page
-cannot read the embedding page's language across origins, so the snippet has to say it. The frame document itself
-takes the package's own language, `defaultLanguage` in its `h5p.json`, for screen readers. The bundle's licence list is emitted as
+H5P's own buttons and dialogs, such as Fullscreen and Rights of use, are in the package's own language,
+`defaultLanguage` (or `language`) in its `h5p.json`, so they match the content's text (player 1.1.0). The frame document
+takes the same language, for screen readers. `&lang=<tag>` on the address, `de` or `pt-BR`, is the language for a
+package that names none. The translations come from the runtime (runtime 0.1.2): more than fifty languages, from
+Moodle's language packs, in a script Vite emits as `assets/l10n-*.js` that the frame fetches only for a language other
+than English. The bundle's licence list is emitted as
 `assets/libraries-LICENSES.txt`.
 `&libraries=` in the query string overrides the sources; `&libraries=none` turns them off.
 
