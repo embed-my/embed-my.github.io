@@ -121,6 +121,27 @@ test('a link carrying the source builds it at once, deflated or not', async ({ p
   expect(problems, problems.join('\n')).toEqual([])
 })
 
+test('the download is named for the title: letters of any script, and nothing that is not one', async ({ page, baseURL }) => {
+  const { problems } = watch(page, baseURL)
+  await page.goto('/build')
+  const names: Array<[title: string, name: string]> = [
+    // An emoji's variation selector is a mark with no letter to sit on, and so is a keycap's: neither stays behind unseen.
+    ['Quiz ❤\uFE0F', 'quiz.h5p'],
+    ['1\uFE0F\u20E3 First step', '1-first-step.h5p'],
+    // 'İ' lowercases to an i and a combining dot; the name spells just the i.
+    ['\u0130stanbul Quiz', 'istanbul-quiz.h5p'],
+    // Vowel signs and the candrabindu stay on their letters.
+    ['यूरोप की नदियाँ', 'यूरोप-की-नदियाँ.h5p'],
+    ['★★★ !!!', 'activity.h5p']
+  ]
+  for (const [title, name] of names) {
+    await page.locator('#source').fill(JSON.stringify({ ...RIVERS, title }))
+    await page.locator('#build').click()
+    await expect(page.locator('#download'), title).toHaveAttribute('download', name)
+  }
+  expect(problems, problems.join('\n')).toEqual([])
+})
+
 test('a Question Set shows its cover title as written, tags and entities nowhere', async ({ page, baseURL }) => {
   const { problems } = watch(page, baseURL)
   // h5p-author 0.5.0 wrapped this plain field in <div>, which the set draws as text (h5p-offline-player#164).

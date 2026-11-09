@@ -113,18 +113,22 @@ export function forTheChat(problems: Problem[]): string {
 }
 
 /**
- * A file name for the package, from its title: its letters, marks and digits in any script, lower
- * case, joined by hyphens, at most 60 of them. "Die größten Ereignisse" is
- * `die-größten-ereignisse.h5p`, and a Cyrillic or Greek title keeps its letters, where a slug of
- * ASCII alone turned ß into a hyphen and such a title into `activity.h5p`.
+ * A file name for the package, from its title: its words, each a run of letters and digits in any
+ * script with the marks that sit on them, lower case, joined by hyphens, at most 60 characters.
+ * "Die größten Ereignisse" is `die-größten-ereignisse.h5p`, and a Cyrillic or Greek title keeps its
+ * letters, where a slug of ASCII alone turned ß into a hyphen and such a title into `activity.h5p`.
+ * A mark with no letter to sit on is left out. An emoji's variation selector is one, and so is a
+ * keycap's enclosing mark: they would stay behind as characters nobody can see.
  */
 export function packageName(title: unknown): string {
   const words = String(title ?? '')
     .normalize('NFC')
+    .replace(/[\p{Me}\p{Variation_Selector}]/gu, '')
     .toLowerCase()
-    .replace(/[^\p{L}\p{M}\p{N}]+/gu, '-')
-    .replace(/^-+|-+$/g, '')
-  const short = Array.from(words).slice(0, 60).join('').replace(/-+$/, '')
+    // 'İ' lowercases to an i and a combining dot, which a name does not need to spell.
+    .replace(/i\u0307/g, 'i')
+    .match(/[\p{L}\p{N}][\p{L}\p{M}\p{N}]*/gu)
+  const short = Array.from((words ?? []).join('-')).slice(0, 60).join('').replace(/-+$/, '')
   return `${short || 'activity'}.h5p`
 }
 
