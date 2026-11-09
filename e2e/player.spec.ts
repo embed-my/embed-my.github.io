@@ -20,15 +20,28 @@ function watchConsole(page: Page): string[] {
   return problems
 }
 
-/** Library sources a page of this origin should never ask: the pack whole, the H5P hub, jsDelivr's copy of the pack. */
-const ELSEWHERE = /\/libraries-[^/]*\.h5p|api\.h5p\.org|cdn\.jsdelivr\.net/
+/**
+ * Collects every request that leaves the origin under test, and any for the whole library pack,
+ * which this origin no longer serves. The pack's parts come from here and from nowhere else, so a
+ * library source of whatever name, jsDelivr's copy of the pack, another CDN or the H5P hub, shows
+ * up as a request to another origin: no list of hosts to keep. The listener is on the context, not
+ * the page, so that it also hears the Service Worker's own requests, which a page does not.
+ */
+function watchLeaving(page: Page, baseURL: string | undefined): string[] {
+  if (!baseURL) throw new Error('playwright.config.ts sets no baseURL')
+  const own = new URL(baseURL).origin
+  const leaving: string[] = []
+  page.context().on('request', (request) => {
+    const { protocol, origin, pathname } = new URL(request.url())
+    if (protocol !== 'http:' && protocol !== 'https:') return // data: and blob:
+    if (origin !== own || /\/libraries-[^/]*\.h5p$/.test(pathname)) leaving.push(request.url())
+  })
+  return leaving
+}
 
 test('the player page plays a package', async ({ page, baseURL }) => {
   const problems = watchConsole(page)
-  const elsewhere: string[] = []
-  page.context().on('request', (request) => {
-    if (ELSEWHERE.test(request.url())) elsewhere.push(request.url())
-  })
+  const leaving = watchLeaving(page, baseURL)
   await page.goto(`/h5p?src=${baseURL}${SAMPLE}`)
 
   const player = page.locator('h5p-player')
@@ -43,21 +56,18 @@ test('the player page plays a package', async ({ page, baseURL }) => {
 
   // A complete package costs at most the parts of the libraries it carries at older versions than
   // the pack's, from this origin: never the pack whole, and nothing from anywhere else.
-  expect(elsewhere, 'no library source off this origin, and not the whole pack, was asked for').toEqual([])
+  expect(leaving, 'nothing left this origin, and the whole pack was not asked for').toEqual([])
   expect(problems, problems.join('\n')).toEqual([])
 })
 
 test('a package exported without its libraries plays from the pack served here, part by part', async ({ page, baseURL }) => {
   const problems = watchConsole(page)
   const parts: number[] = []
-  const elsewhere: string[] = []
-  // The context's events, not the page's: the player's workers fetch the parts.
+  const leaving = watchLeaving(page, baseURL)
+  // On the context, as in `watchLeaving`, so that a part the Service Worker fetches is counted too.
   page.context().on('response', (response) => {
     const url = response.url()
     if (url.startsWith(`${baseURL}/assets/`) && url.endsWith('.h5p')) parts.push(response.status())
-  })
-  page.context().on('request', (request) => {
-    if (ELSEWHERE.test(request.url())) elsewhere.push(request.url())
   })
   // The quiz as H5P.com would export it: `content/` and a manifest that names only the main library.
   // It was written for Question Set 1.20 and the pack serves 1.21, so the frame runs the library's
@@ -72,7 +82,7 @@ test('a package exported without its libraries plays from the pack served here, 
   expect(parts.length, 'parts were fetched from this origin').toBeGreaterThan(0)
   expect(parts.length, 'only the parts the quiz needs').toBeLessThan(40)
   expect(parts.filter((status) => status !== 200), 'every part answered').toEqual([])
-  expect(elsewhere, 'no library source off this origin, and not the whole pack, was asked for').toEqual([])
+  expect(leaving, 'nothing left this origin, and the whole pack was not asked for').toEqual([])
   expect(problems, problems.join('\n')).toEqual([])
 })
 
