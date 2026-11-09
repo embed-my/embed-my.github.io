@@ -8,6 +8,7 @@ The player origin of Embed My: what a snippet points at. The site people use to 
 | `/h5p?src=<package url>` | The player page the snippet frames: the player alone, driven by the query string. Upward it speaks the resizer protocol, and posts one `report` on what it learnt about the package, or the `error` that stopped it |
 | `/h5p-resizer.js` | The sizing script the snippet's second line names |
 | `/build` | The build page: a source an AI chat wrote with the [h5p-author skill](https://github.com/missing-elements/h5p-offline-player/tree/main/skills/h5p-author) becomes a `.h5p` file, built in the browser, played on the page and downloaded from it. `/build#source=<base64url>` carries a source in the link |
+| `/bundles/` | For a chat that runs Node and fetches files but reaches no npm registry: the build tool as one file, a bundle of libraries per content type, every library part on its own, their licences and an `index.json` (see *The bundles*) |
 | `/samples/*.h5p` | The three demo packages the site offers (CC0 and CC BY), and `quiz-without-libraries.h5p`, the quiz as H5P.com would export it, which the browser tests play |
 
 It has no custom domain, on purpose. A GitHub Pages address has nothing to renew and nothing anyone
@@ -72,8 +73,8 @@ than English. The pack's licence list is emitted as
 | `h5p.html`, `src/h5p-page.ts` | The player page: `@missing-elements/h5p-embed`'s embed page, started with this origin's options |
 | `build.html`, `src/build-page.ts`, `src/build-source.ts`, `src/build.css` | The build page: the page's wiring, and what it does with a source with no DOM (the link's fragment, the files a source names, the text for the chat) |
 | `public/samples/` | The sample packages, copied into the build as they are |
-| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error; the build page builds, plays and downloads a pasted source, one from a link and one with a file of its own, and lists a source's problems for the chat |
-| `vite.config.ts` | The page, its Content-Security-Policy, `h5p-resizer.js` and the licence files, copied from their packages |
+| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error; the build page builds, plays and downloads a pasted source, one from a link and one with a file of its own, and lists a source's problems for the chat; `/bundles/` lists and serves every bundle and part, and its tool and a bundle build a quiz in an empty folder, a part named by the build fetched for math |
+| `vite.config.ts` | The page, its Content-Security-Policy, `h5p-resizer.js` and the licence files, copied from their packages, and `/bundles/`, written from them |
 
 The page gets a `Content-Security-Policy` in a `<meta>` tag at build: GitHub Pages sends no headers, so the tag is
 the only policy there is. The dev server gets none, because it injects scripts and styles of its own. The browser
@@ -101,6 +102,28 @@ web address gets it only where that host allows CORS.
 
 The page's address has no "H5P" in it, as H5P Group's trademark policy asks of a name that does
 not say who made it; its heading uses the word descriptively.
+
+## The bundles
+
+`/bundles/` is for a chat that runs Node and can fetch a file but reaches no npm registry, as
+ChatGPT's sandbox can: its download tool takes a file the browsing tool has opened. There the
+h5p-author skill fetches two files, the build tool and the bundle of the source's content type,
+unzips the bundle and builds with `node h5p-author.mjs build source.json course.h5p --libraries
+parts`. The chat then sees every problem itself, fixes its source and hands over the package; the
+build page stays for a chat that can fetch nothing.
+
+| Path | What it holds |
+|---|---|
+| `/bundles/<type>.zip` | One per content type in the pack, `H5P.QuestionSet.zip`: `parts/`, the pack's whole index with the parts a build of that type can read, and `libraries.txt`. Written by `h5p-author bundle --all` |
+| `/bundles/parts/<part>.h5p` | Every part of the pack under its own name, and `parts/index.json`. No bundle holds an addon: a source whose text calls for one, H5P.MathDisplay for math, stops the build, which names the part to fetch from here |
+| `/bundles/h5p-author.mjs` | The author package's command line as one file, everything it imports bundled in by Vite, so it runs with nothing installed. It needs `--libraries`, and has no `--version`: the npm package's own files are not with it |
+| `/bundles/index.json` | The author package's and the pack's versions, and each bundle's file, size and number of parts |
+| `/bundles/libraries.txt` | The pack's licence list, which asks to travel with its libraries |
+
+`vite.config.ts` writes them after the pages, from the packages the lockfile pins, so a
+Dependabot update of `@missing-elements/h5p-author` or `@missing-elements/h5p-libraries` moves
+them, and they live in `dist/` only, not in git: 113 MB with pack 1.1.0, well within GitHub Pages'
+1 GB. A question type's bundle is about 1 MB, a Question Set's 2.6 MB, a container's up to 8.4 MB.
 
 ## Deploy
 

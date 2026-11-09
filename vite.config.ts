@@ -1,6 +1,10 @@
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
-import { defineConfig, type Plugin } from 'vite'
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises'
+import { basename, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { writeBundles } from '@missing-elements/h5p-author'
+import { build, defineConfig, type Plugin } from 'vite'
 
 /*
  * The player origin, embed-my.github.io: the page the snippet frames (`/h5p`), the sizing script
@@ -82,8 +86,78 @@ function packageFiles(): Plugin {
   }
 }
 
+/**
+ * `/bundles/`, for a chat that runs Node and can fetch a file but reaches no npm registry, as in
+ * ChatGPT's sandbox (#14). The h5p-author skill builds there from two files fetched from here: the
+ * command line, and the bundle of the source's content type.
+ *
+ * - `<type>.zip`, one per content type in the pack (`h5p-author bundle --all`): `parts/`, the
+ *   pack's whole index with the parts a build of that type can read, and `libraries.txt`.
+ * - `parts/`: every part of the pack under its own name, and its index. A bundle holds no addon,
+ *   so a build whose text calls for one stops and names its part, which the chat fetches from here.
+ * - `h5p-author.mjs`: the command line as one file, everything it imports bundled in by Vite, so it
+ *   runs with nothing installed. It takes `--libraries`: the npm package's pinned pack is not with
+ *   it, nor the package.json `--version` reads, so `index.json` says the versions.
+ * - `index.json`: the author's and the pack's versions, and each bundle's file, size and parts.
+ * - `libraries.txt`: the pack's licence list, which asks to travel with its libraries.
+ *
+ * Written after the pages, from the packages the lockfile pins: `dist/` holds them, git does not.
+ */
+function bundles(): Plugin {
+  const root = fileURLToPath(new URL('.', import.meta.url))
+  const author = new URL('./node_modules/@missing-elements/h5p-author/', import.meta.url)
+  const libraries = new URL('./node_modules/@missing-elements/h5p-libraries/', import.meta.url)
+  const version = async (from: URL) => (JSON.parse(await readFile(new URL('package.json', from), 'utf8')) as { version: string }).version
+  let outDir = ''
+  return {
+    name: 'embed-my:bundles',
+    apply: 'build',
+    configResolved(config) {
+      outDir = resolve(config.root, config.build.outDir)
+    },
+    async writeBundle() {
+      const folder = join(outDir, 'bundles')
+      const written = await writeBundles(folder)
+      const parts = join(folder, 'parts')
+      await mkdir(parts)
+      const index = JSON.parse(await readFile(new URL('parts/index.json', libraries), 'utf8')) as { libraries: Array<{ folder: string }> }
+      for (const { folder: part } of index.libraries) await copyFile(new URL(`parts/${part}.h5p`, libraries), join(parts, `${part}.h5p`))
+      await copyFile(new URL('parts/index.json', libraries), join(parts, 'index.json'))
+      await copyFile(new URL('libraries.txt', libraries), join(folder, 'libraries.txt'))
+      await build({
+        configFile: false,
+        root,
+        logLevel: 'warn',
+        publicDir: false,
+        build: {
+          ssr: fileURLToPath(new URL('bin/h5p-author.mjs', author)),
+          outDir: folder,
+          emptyOutDir: false,
+          copyPublicDir: false,
+          minify: false,
+          reportCompressedSize: false,
+          rolldownOptions: { output: { entryFileNames: 'h5p-author.mjs', format: 'es', codeSplitting: false } }
+        },
+        ssr: { noExternal: true, target: 'node' }
+      })
+      const listing = {
+        author: await version(author),
+        pack: await version(libraries),
+        tool: 'h5p-author.mjs',
+        parts: 'parts/',
+        licences: 'libraries.txt',
+        bundles: written.map(({ output, type, parts, size }) => {
+          const [machineName, typeVersion] = type.split(' ')
+          return { type: machineName, version: typeVersion, file: basename(output), size, parts: parts.length }
+        })
+      }
+      await writeFile(join(folder, 'index.json'), `${JSON.stringify(listing, null, 2)}\n`)
+    }
+  }
+}
+
 export default defineConfig({
-  plugins: [cspMeta(), packageFiles()],
+  plugins: [cspMeta(), packageFiles(), bundles()],
   build: {
     rollupOptions: {
       input: { h5p: 'h5p.html', build: 'build.html' }
