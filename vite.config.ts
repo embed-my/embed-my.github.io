@@ -86,7 +86,7 @@ export default defineConfig({
   plugins: [cspMeta(), packageFiles()],
   build: {
     rollupOptions: {
-      input: { h5p: 'h5p.html' }
+      input: { h5p: 'h5p.html', build: 'build.html' }
     }
   }
 })
