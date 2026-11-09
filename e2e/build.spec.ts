@@ -105,12 +105,36 @@ test('a link carrying the source builds it at once, deflated or not', async ({ p
   await expectPlays(page)
   await expect(page.locator('#source')).toHaveValue(JSON.stringify(RIVERS))
 
-  const plain = Buffer.from(JSON.stringify({ ...RIVERS, title: 'Seas' })).toString('base64url')
+  // Plain base64url, with umlauts and ß: the bytes are UTF-8, and the file name keeps the letters.
+  const plain = Buffer.from(JSON.stringify({ ...RIVERS, language: 'de', title: 'Größte Flüsse' })).toString('base64url')
   await page.goto(`/build#source=${plain}`)
-  await expect(page.locator('#status')).toContainText('Built “Seas”')
+  await expect(page.locator('#status')).toContainText('Built “Größte Flüsse”')
   await expectPlays(page)
+  await expect(page.locator('#download')).toHaveAttribute('download', 'größte-flüsse.h5p')
+
+  // A title in another script keeps its letters too, rather than becoming activity.h5p.
+  await page.goto(`/build#source=${Buffer.from(JSON.stringify({ ...RIVERS, language: 'uk', title: 'Річки України' })).toString('base64url')}`)
+  await expectPlays(page)
+  await expect(page.locator('#download')).toHaveAttribute('download', 'річки-україни.h5p')
 
   expect(elsewhere, 'nothing was fetched from another site').toEqual([])
+  expect(problems, problems.join('\n')).toEqual([])
+})
+
+test('a Question Set shows its cover title as written, tags and entities nowhere', async ({ page, baseURL }) => {
+  const { problems } = watch(page, baseURL)
+  // h5p-author 0.5.0 wrapped this plain field in <div>, which the set draws as text (h5p-offline-player#164).
+  const title = "Germany's Surrender: die größten Ereignisse"
+  const quiz = {
+    type: 'H5P.QuestionSet', title: 'Surrender', language: 'en', license: 'CC BY', authors: [{ name: 'Ann Author', role: 'Author' }],
+    params: {
+      introPage: { showIntroPage: true, title, introduction: 'Five questions.' },
+      questions: [{ library: 'H5P.TrueFalse', params: { question: 'The war in Europe ended in 1945.', correct: 'true' } }]
+    }
+  }
+  await page.goto(`/build#source=${Buffer.from(JSON.stringify(quiz)).toString('base64url')}`)
+  await expectPlays(page)
+  await expect(page.frameLocator('h5p-player iframe').first().locator('h2').first()).toHaveText(title)
   expect(problems, problems.join('\n')).toEqual([])
 })
 
