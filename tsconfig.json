@@ -26,7 +26,6 @@
     "src/h5p-page.ts",
     "src/build-page.ts",
     "src/build-source.ts",
-    "src/h5p-embed.d.ts",
     "e2e",
     "playwright.config.ts",
     "vite.config.ts"

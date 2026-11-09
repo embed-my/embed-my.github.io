@@ -46,19 +46,24 @@ is shown, as the H5P CMS plugins check an upload: text keeps only the tags its f
 semantics do not name is dropped. Only a package that cannot play without its own copy of a library waits for a
 click that names its host.
 
-A package exported without its libraries, as H5P.com and h5p.org export them, gets them from
-`@missing-elements/h5p-libraries`: one `.h5p` with the H5P hub's libraries for every content type it serves, about
-14 MB, which Vite emits as a hashed asset and the page uses by default (`defaultLibraries: 'pack'`). Nothing is
-behind it: since player 0.6 there is no H5P hub fallback, so a content type the pack lacks is reported as missing
-libraries, and the page makes no request to a third party by itself. Since player 0.6.1 the frame upgrades content
-written for an older minor version of a library to the one the pack serves, with that library's `upgrades.js`.
+A package exported without its libraries, as H5P.com and h5p.org export them, gets them from the pack of
+`@missing-elements/h5p-libraries`: the H5P hub's libraries for every content type it serves, one part per library,
+which Vite emits as hashed assets and the page uses by default (`pack`, `defaultLibraries: 'pack'`). A package
+downloads only the parts it needs, each checked against the pack's SHA-256 and kept in the browser for every package
+that uses it; the build page reads the same parts. Nothing is behind the pack: since player 0.6 there is no H5P hub
+fallback, so a content type the pack lacks is reported as missing libraries, and the page makes no request to a third
+party by itself. The frame upgrades content written for an older minor version of a library to the one the pack
+serves, with that library's `upgrades.js`, so a package that carries older libraries plays the pack's newer ones
+(player 0.10; `&refresh-libraries=off` plays them as exported), and the `report` names them in
+`libraryBundle.refreshed`. Content made for a newer minor version than the pack has plays at the pack's newest older
+one, listed in the report's `downgradedLibraries` (player 1.2; `&downgrade-libraries=off` refuses it instead).
 
 H5P's own buttons and dialogs, such as Fullscreen and Rights of use, are in the package's own language,
 `defaultLanguage` (or `language`) in its `h5p.json`, so they match the content's text (player 1.1.0). The frame document
 takes the same language, for screen readers. `&lang=<tag>` on the address, `de` or `pt-BR`, is the language for a
 package that names none. The translations come from the runtime (runtime 0.1.2): more than fifty languages, from
 Moodle's language packs, in a script Vite emits as `assets/l10n-*.js` that the frame fetches only for a language other
-than English. The bundle's licence list is emitted as
+than English. The pack's licence list is emitted as
 `assets/libraries-LICENSES.txt`.
 `&libraries=` in the query string overrides the sources; `&libraries=none` turns them off.
 
