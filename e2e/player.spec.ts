@@ -20,12 +20,28 @@ function watchConsole(page: Page): string[] {
   return problems
 }
 
+/**
+ * Collects every request that leaves the origin under test, and any for the whole library pack,
+ * which this origin no longer serves. The pack's parts come from here and from nowhere else, so a
+ * library source of whatever name, jsDelivr's copy of the pack, another CDN or the H5P hub, shows
+ * up as a request to another origin: no list of hosts to keep. The listener is on the context, not
+ * the page, so that it also hears the Service Worker's own requests, which a page does not.
+ */
+function watchLeaving(page: Page, baseURL: string | undefined): string[] {
+  if (!baseURL) throw new Error('playwright.config.ts sets no baseURL')
+  const own = new URL(baseURL).origin
+  const leaving: string[] = []
+  page.context().on('request', (request) => {
+    const { protocol, origin, pathname } = new URL(request.url())
+    if (protocol !== 'http:' && protocol !== 'https:') return // data: and blob:
+    if (origin !== own || /\/libraries-[^/]*\.h5p$/.test(pathname)) leaving.push(request.url())
+  })
+  return leaving
+}
+
 test('the player page plays a package', async ({ page, baseURL }) => {
   const problems = watchConsole(page)
-  const bundle: string[] = []
-  page.on('request', (request) => {
-    if (/\/assets\/libraries-.*\.h5p|api\.h5p\.org/.test(request.url())) bundle.push(request.url())
-  })
+  const leaving = watchLeaving(page, baseURL)
   await page.goto(`/h5p?src=${baseURL}${SAMPLE}`)
 
   const player = page.locator('h5p-player')
@@ -38,20 +54,20 @@ test('the player page plays a package', async ({ page, baseURL }) => {
   const frame = page.frameLocator('h5p-player iframe').first()
   await expect(frame.locator('.h5p-content, .h5p-container').first()).toBeVisible()
 
-  // A complete package never costs the library bundle, or a request anywhere else for libraries.
-  expect(bundle, 'no library source was asked for').toEqual([])
+  // A complete package costs at most the parts of the libraries it carries at older versions than
+  // the pack's, from this origin: never the pack whole, and nothing from anywhere else.
+  expect(leaving, 'nothing left this origin, and the whole pack was not asked for').toEqual([])
   expect(problems, problems.join('\n')).toEqual([])
 })
 
-test('a package exported without its libraries plays from the bundle', async ({ page, baseURL }) => {
+test('a package exported without its libraries plays from the pack served here, part by part', async ({ page, baseURL }) => {
   const problems = watchConsole(page)
-  const bundle: number[] = []
-  const elsewhere: string[] = []
-  page.on('response', (response) => {
-    if (/\/assets\/libraries-.*\.h5p/.test(response.url())) bundle.push(response.status())
-  })
-  page.on('request', (request) => {
-    if (/api\.h5p\.org|cdn\.jsdelivr\.net/.test(request.url())) elsewhere.push(request.url())
+  const parts: number[] = []
+  const leaving = watchLeaving(page, baseURL)
+  // On the context, as in `watchLeaving`, so that a part the Service Worker fetches is counted too.
+  page.context().on('response', (response) => {
+    const url = response.url()
+    if (url.startsWith(`${baseURL}/assets/`) && url.endsWith('.h5p')) parts.push(response.status())
   })
   // The quiz as H5P.com would export it: `content/` and a manifest that names only the main library.
   // It was written for Question Set 1.20 and the pack serves 1.21, so the frame runs the library's
@@ -59,11 +75,14 @@ test('a package exported without its libraries plays from the bundle', async ({ 
   await page.goto(`/h5p?src=${baseURL}/samples/quiz-without-libraries.h5p`)
   const player = page.locator('h5p-player')
   // The pack served here, and nothing behind it: the player has no hub to fall back to.
-  await expect(player).toHaveAttribute('libraries', /^\/assets\/libraries-[^ ]*\.h5p$/)
+  await expect(player).toHaveAttribute('libraries', 'pack')
   await expect.poll(async () => player.evaluate((element: HTMLElement & { state?: string }) => element.state), { timeout: 40_000 }).toBe('ready')
   await expect(page.frameLocator('h5p-player iframe').first().locator('.h5p-content, .h5p-container').first()).toBeVisible()
-  expect(bundle.length, 'the bundle was fetched from this origin').toBeGreaterThan(0)
-  expect(elsewhere, 'no library source off this origin was asked for').toEqual([])
+  // The parts the quiz needs, a handful of the pack's hundred and more, each from this origin.
+  expect(parts.length, 'parts were fetched from this origin').toBeGreaterThan(0)
+  expect(parts.length, 'only the parts the quiz needs').toBeLessThan(40)
+  expect(parts.filter((status) => status !== 200), 'every part answered').toEqual([])
+  expect(leaving, 'nothing left this origin, and the whole pack was not asked for').toEqual([])
   expect(problems, problems.join('\n')).toEqual([])
 })
 
@@ -96,7 +115,7 @@ test('opened on its own, a package from another site plays untrusted, without a 
   // Played as data: none of the package's own code, its libraries from the pack served here, and
   // its content shown only after the runtime's boot script has checked it against their semantics.
   expect(await player.evaluate((element: HTMLElement & { untrusted?: boolean }) => element.untrusted)).toBe(true)
-  await expect(player).toHaveAttribute('libraries', /^\/assets\/libraries-[^ ]*\.h5p$/)
+  await expect(player).toHaveAttribute('libraries', 'pack')
   await expect(page.getByRole('button', { name: 'Open with its own scripts' })).toHaveCount(0)
   await expect(page.frameLocator('h5p-player iframe').first().locator('.h5p-content, .h5p-container').first()).toBeVisible()
   expect(problems, problems.join('\n')).toEqual([])
@@ -138,7 +157,15 @@ test('a page that frames it gets a hello, a height and a report', async ({ page,
     action: 'report',
     source: { type: 'range-http', size: expect.any(Number) },
     metadata: { title: 'Do you know what just happened?', license: 'CC0 1.0', authors: ['missing-elements'], mainLibrary: 'H5P.QuestionSet' },
-    libraryBundle: null,
+    // The quiz carries its libraries, older than the pack's, so it plays the pack's newer versions
+    // from this origin (player 0.10) and the report names them; the website says so under its preview.
+    libraryBundle: {
+      url: `${baseURL}/assets/`,
+      origin: baseURL,
+      fromCache: expect.any(Boolean),
+      refreshed: expect.arrayContaining([{ library: 'H5P.QuestionSet', from: '1.20.31', to: expect.stringMatching(/^1\.\d+\.\d+$/) }])
+    },
+    downgradedLibraries: [],
     elapsedMs: expect.any(Number)
   })
 })
