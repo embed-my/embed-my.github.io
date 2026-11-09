@@ -112,17 +112,20 @@ export function forTheChat(problems: Problem[]): string {
   ].join('\n')
 }
 
-/** A file name for the package, from its title. */
+/**
+ * A file name for the package, from its title: its letters, marks and digits in any script, lower
+ * case, joined by hyphens, at most 60 of them. "Die größten Ereignisse" is
+ * `die-größten-ereignisse.h5p`, and a Cyrillic or Greek title keeps its letters, where a slug of
+ * ASCII alone turned ß into a hyphen and such a title into `activity.h5p`.
+ */
 export function packageName(title: unknown): string {
   const words = String(title ?? '')
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
+    .normalize('NFC')
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/[^\p{L}\p{M}\p{N}]+/gu, '-')
     .replace(/^-+|-+$/g, '')
-    .slice(0, 60)
-    .replace(/-+$/, '')
-  return `${words || 'activity'}.h5p`
+  const short = Array.from(words).slice(0, 60).join('').replace(/-+$/, '')
+  return `${short || 'activity'}.h5p`
 }
 
 /** A size in kilobytes below a megabyte, in megabytes above. */
