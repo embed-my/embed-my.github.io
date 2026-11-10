@@ -3,87 +3,23 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Turn the source an AI chat wrote with the h5p-author skill into a .h5p file, in your browser." />
-    <title>Build an activity · Embed My</title>
-    <script type="module" src="/src/build-page.ts"></script>
+    <meta name="robots" content="noindex" />
+    <title>The build page has moved · Embed My</title>
+    <link rel="canonical" href="https://missing-elements.github.io/h5p/build/" />
+    <!--
+      The build page moved to missing-elements.github.io (#17). A visit here goes on there with its
+      fragment, so a link a chat wrote before, #source= and all, still builds its source.
+    -->
+    <script>
+      location.replace('https://missing-elements.github.io/h5p/build/' + location.hash)
+    </script>
+    <noscript><meta http-equiv="refresh" content="0; url=https://missing-elements.github.io/h5p/build/" /></noscript>
   </head>
 
   <body>
-    <main>
-      <h1>Build an H5P activity from a source</h1>
-      <p class="lead">
-        For an AI chat that wrote a source with the
-        <a href="https://github.com/missing-elements/h5p-offline-player/tree/main/skills/h5p-author">h5p-author skill</a>
-        but could not build it, as in ChatGPT, where the build tool does not install. Paste
-        the source here, play the activity, and download a <code>.h5p</code> file that any H5P site
-        takes. Nothing is uploaded: the package is built in your browser, from the libraries this
-        site serves.
-      </p>
-
-      <section class="step" aria-labelledby="source-heading">
-        <h2 id="source-heading"><span class="step-number">1</span> Source</h2>
-        <p>
-          <label for="source">The source, as JSON</label>
-          <textarea id="source" rows="12" spellcheck="false" autocomplete="off" placeholder='{ "type": "H5P.Blanks", "title": "Rivers", "language": "en", "license": "CC BY", "authors": [{ "name": "Ann Author", "role": "Author" }], "params": { "questions": ["The *Danube* flows into the Black Sea."] } }'></textarea>
-        </p>
-        <p>
-          <label for="source-file" class="inline-label">Or open a file</label>
-          <input type="file" id="source-file" accept=".json,application/json,text/plain" />
-        </p>
-      </section>
-
-      <section class="step" id="files-step" aria-labelledby="files-heading" hidden>
-        <h2 id="files-heading"><span class="step-number">2</span> Files</h2>
-        <p>The source names these files. Choose them from your computer; each is matched by its name.</p>
-        <ul class="file-list" id="file-list"></ul>
-        <p>
-          <label for="files" class="inline-label">Choose files</label>
-          <input type="file" id="files" multiple />
-        </p>
-      </section>
-
-      <section class="step" aria-labelledby="build-heading">
-        <h2 id="build-heading"><span class="step-number" id="build-number">2</span> Build</h2>
-        <p><button type="button" id="build" class="primary">Build</button></p>
-        <p class="status" id="status" role="status" aria-live="polite"></p>
-        <div id="problems-box" hidden>
-          <ul class="messages problems" id="problems"></ul>
-          <p>
-            <button type="button" id="copy-problems">Copy the problems for the chat</button>
-            <span class="hint" id="copy-result" role="status"></span>
-          </p>
-          <p class="hint">Paste them into the chat that wrote the source: it fixes them all and writes the source again.</p>
-        </div>
-        <div id="notes-box" hidden>
-          <h3>Notes</h3>
-          <ul class="messages" id="notes"></ul>
-        </div>
-      </section>
-
-      <section class="step" id="play-step" aria-labelledby="play-heading" hidden>
-        <h2 id="play-heading"><span class="step-number" id="play-number">3</span> Play and download</h2>
-        <p>
-          Work through all of it, wrong answers included, and check the answers and feedback
-          against your material. The build checks the structure, not whether the content is right.
-        </p>
-        <p><a class="button primary" id="download" download>Download the .h5p</a></p>
-        <div class="player-box">
-          <h5p-player id="player"></h5p-player>
-        </div>
-        <p class="hint">
-          The package carries H5P's libraries, each under its own licence, most MIT, listed in
-          <a href="/assets/libraries-LICENSES.txt">the pack's licence list</a>: check those terms
-          before you share it.
-        </p>
-      </section>
-    </main>
-
-    <footer>
-      <p>
-        Built with <a href="https://github.com/missing-elements/h5p-offline-player">h5p-offline-player</a>
-        and <code>@missing-elements/h5p-author</code>, MIT. The H5P runtime the player loads is
-        GPL-3.0. Not affiliated with H5P Group; H5P is a registered trademark of H5P Group AS.
-      </p>
-    </footer>
+    <p>
+      The build page has moved to
+      <a href="https://missing-elements.github.io/h5p/build/">missing-elements.github.io/h5p/build</a>.
+    </p>
   </body>
 </html>
