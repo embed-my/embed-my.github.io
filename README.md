@@ -70,9 +70,9 @@ than English. The pack's licence list is emitted as
 | Path | What it holds |
 |---|---|
 | `h5p.html`, `src/h5p-page.ts` | The player page: `@missing-elements/h5p-embed`'s embed page, started with this origin's options |
-| `build.html` | `/build`, the redirect to the build page's new address, which keeps the link's fragment |
+| `build.html` | `/build`, the redirect to the build page's new address, which keeps the link's fragment when JavaScript runs |
 | `public/samples/` | The sample packages, copied into the build as they are |
-| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error; `/build` sends a visit on to the build page's new address with its fragment, with or without JavaScript; `/bundles/` lists and serves every bundle and part, and its tool and a bundle build a quiz in an empty folder, a part named by the build fetched for math |
+| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error; `/build` sends a visit on to the build page's new address, with its fragment when JavaScript runs, and without it when it does not; `/bundles/` lists and serves every bundle and part, and its tool and a bundle build a quiz in an empty folder, a part named by the build fetched for math |
 | `vite.config.ts` | The page, its Content-Security-Policy, `h5p-resizer.js` and the licence files, copied from their packages, and `/bundles/`, written from them |
 
 The page gets a `Content-Security-Policy` in a `<meta>` tag at build: GitHub Pages sends no headers, so the tag is

@@ -37,9 +37,10 @@ test('sends /build on to the build page, keeping the #source= fragment', async (
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false })
 
-  test('still sends /build on to the build page', async ({ page }) => {
-    await watch(page)
-    await page.goto('/build')
+  test('still sends /build on to the build page, though without the fragment', async ({ page }) => {
+    const problems = await watch(page)
+    await page.goto('/build#source=e30')
     await page.waitForURL(TARGET)
+    expect(problems, problems.join('\n')).toEqual([])
   })
 })
