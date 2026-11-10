@@ -24,8 +24,6 @@
   },
   "include": [
     "src/h5p-page.ts",
-    "src/build-page.ts",
-    "src/build-source.ts",
     "e2e",
     "playwright.config.ts",
     "vite.config.ts"

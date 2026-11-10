@@ -91,6 +91,11 @@ function packageFiles(): Plugin {
  * ChatGPT's sandbox (#14). The h5p-author skill builds there from two files fetched from here: the
  * command line, and the bundle of the source's content type.
  *
+ * Kept until the next library pack release only. missing-elements.github.io serves the same at
+ * `/h5p/bundles/` since the build page moved there (#17), and the skill fetches from there; copies
+ * of the skill installed before still fetch from here. Then this plugin goes, with its test and the
+ * `@missing-elements/h5p-author` dependency.
+ *
  * - `<type>.zip`, one per content type in the pack (`h5p-author bundle --all`): `parts/`, the
  *   pack's whole index with the parts a build of that type can read, and `libraries.txt`.
  * - `parts/`: every part of the pack under its own name, and its index. A bundle holds no addon,

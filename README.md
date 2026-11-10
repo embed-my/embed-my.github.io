@@ -7,8 +7,8 @@ The player origin of Embed My: what a snippet points at. The site people use to 
 |---|---|
 | `/h5p?src=<package url>` | The player page the snippet frames: the player alone, driven by the query string. Upward it speaks the resizer protocol, and posts one `report` on what it learnt about the package, or the `error` that stopped it |
 | `/h5p-resizer.js` | The sizing script the snippet's second line names |
-| `/build` | The build page: a source an AI chat wrote with the [h5p-author skill](https://github.com/missing-elements/h5p-offline-player/tree/main/skills/h5p-author) becomes a `.h5p` file, built in the browser, played on the page and downloaded from it. `/build#source=<base64url>` carries a source in the link |
-| `/bundles/` | For a chat that runs Node and fetches files but reaches no npm registry: the build tool as one file, a bundle of libraries per content type, every library part on its own, their licences and an `index.json` (see *The bundles*) |
+| `/build` | A redirect to the build page, which moved to [missing-elements.github.io/h5p/build/](https://missing-elements.github.io/h5p/build/) (#17), keeping the link's `#source=` (see *The build page moved*) |
+| `/bundles/` | For a chat that runs Node and fetches files but reaches no npm registry: the build tool as one file, a bundle of libraries per content type, every library part on its own, their licences and an `index.json`. Kept until the next pack release (see *The bundles*) |
 | `/samples/*.h5p` | The three demo packages the site offers (CC0 and CC BY), and `quiz-without-libraries.h5p`, the quiz as H5P.com would export it, which the browser tests play |
 
 It has no custom domain, on purpose. A GitHub Pages address has nothing to renew and nothing anyone
@@ -23,7 +23,6 @@ Needs Node 22.12 or later and pnpm (its version is pinned in `package.json`).
 ```bash
 pnpm install
 pnpm dev         # dev server, http://localhost:5173/h5p?src=http://localhost:5173/samples/quiz.h5p
-                 # and the build page, http://localhost:5173/build
 pnpm typecheck   # TypeScript, no output
 pnpm build       # type-check, then build into dist/
 pnpm preview     # serve dist/, http://localhost:4173
@@ -51,7 +50,7 @@ A package exported without its libraries, as H5P.com and h5p.org export them, ge
 `@missing-elements/h5p-libraries`: the H5P hub's libraries for every content type it serves, one part per library,
 which Vite emits as hashed assets and the page uses by default (`pack`, `defaultLibraries: 'pack'`). A package
 downloads only the parts it needs, each checked against the pack's SHA-256 and kept in the browser for every package
-that uses it; the build page reads the same parts. Nothing is behind the pack: since player 0.6 there is no H5P hub
+that uses it. Nothing is behind the pack: since player 0.6 there is no H5P hub
 fallback, so a content type the pack lacks is reported as missing libraries, and the page makes no request to a third
 party by itself. The frame upgrades content written for an older minor version of a library to the one the pack
 serves, with that library's `upgrades.js`, so a package that carries older libraries plays the pack's newer ones
@@ -71,37 +70,25 @@ than English. The pack's licence list is emitted as
 | Path | What it holds |
 |---|---|
 | `h5p.html`, `src/h5p-page.ts` | The player page: `@missing-elements/h5p-embed`'s embed page, started with this origin's options |
-| `build.html`, `src/build-page.ts`, `src/build-source.ts`, `src/build.css` | The build page: the page's wiring, and what it does with a source with no DOM (the link's fragment, the files a source names, the text for the chat) |
+| `build.html` | `/build`, the redirect to the build page's new address, which keeps the link's fragment when JavaScript runs |
 | `public/samples/` | The sample packages, copied into the build as they are |
-| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error; the build page builds, plays and downloads a pasted source, one from a link and one with a file of its own, and lists a source's problems for the chat; `/bundles/` lists and serves every bundle and part, and its tool and a bundle build a quiz in an empty folder, a part named by the build fetched for math |
+| `e2e/`, `playwright.config.ts` | The browser tests: the page plays a sample, with and without its libraries, a framing page gets its height and the report, a bad link gets the error; `/build` sends a visit on to the build page's new address, with its fragment when JavaScript runs, and without it when it does not; `/bundles/` lists and serves every bundle and part, and its tool and a bundle build a quiz in an empty folder, a part named by the build fetched for math |
 | `vite.config.ts` | The page, its Content-Security-Policy, `h5p-resizer.js` and the licence files, copied from their packages, and `/bundles/`, written from them |
 
 The page gets a `Content-Security-Policy` in a `<meta>` tag at build: GitHub Pages sends no headers, so the tag is
 the only policy there is. The dev server gets none, because it injects scripts and styles of its own. The browser
 tests fail on any violation.
 
-## The build page
+## The build page moved
 
-`/build` is for a chat that wrote an h5p-author source but cannot build it. ChatGPT's sandbox
-reaches npm only through OpenAI's own mirror, which was reported refusing every install from July
-2026 (503, then 404), and the public registry not at all, so `npx @missing-elements/h5p-author`
-does not run there. The skill then hands over the source and
-this page's address. The page builds with `@missing-elements/h5p-author/browser`, the same build as
-the command's: every problem listed at once by its path, ready to copy back into the chat. Its
-libraries are `@missing-elements/h5p-libraries/install`'s pack, which Vite emits here one part per
-library, so a build fetches only the parts its package needs and carries the editor libraries an
-H5P site's upload check asks for. The package then plays in the player on the page, and downloads
-from it.
-
-Nothing leaves the browser. A link can carry the source in its fragment, which no server sees:
-`/build#source=<base64url>`, the bytes being the source's JSON as UTF-8, or that JSON compressed
-with raw deflate (Node's `zlib.deflateRawSync`, Python's `zlib.compressobj(wbits=-15)`) to keep
-the link short. A linked source is built at once, unless it names files of its own: those only the
-person can choose, matched by name, and the page waits for them. A source that names a picture by
-web address gets it only where that host allows CORS.
-
-The page's address has no "H5P" in it, as H5P Group's trademark policy asks of a name that does
-not say who made it; its heading uses the word descriptively.
+`/build` was the build page: a source an AI chat wrote with the
+[h5p-author skill](https://github.com/missing-elements/h5p-offline-player/tree/main/skills/h5p-author)
+became a `.h5p` file there, built in the browser, played and downloaded. It moved on 2026-11-10 to
+[missing-elements.github.io/h5p/build/](https://missing-elements.github.io/h5p/build/), the
+Missing Elements site, in that site's own look (#17); its code and tests are there now. `/build`
+here sends a visit on to it with the address's fragment, so a link a chat wrote before,
+`/build#source=<base64url>`, still builds its source. Without JavaScript the page refreshes to the
+new address, which can't carry the fragment, and links to it.
 
 ## The bundles
 
@@ -124,6 +111,12 @@ build page stays for a chat that can fetch nothing.
 Dependabot update of `@missing-elements/h5p-author` or `@missing-elements/h5p-libraries` moves
 them, and they live in `dist/` only, not in git: 113 MB with pack 1.1.0, well within GitHub Pages'
 1 GB. A question type's bundle is about 1 MB, a Question Set's 2.6 MB, a container's up to 8.4 MB.
+
+They moved with the build page: missing-elements.github.io serves the same files at
+[`/h5p/bundles/`](https://missing-elements.github.io/h5p/bundles/index.json), and the skill fetches
+them from there. They stay here only for copies of the skill installed before the move, until the
+next pack release; then `bundles()` goes, with `e2e/bundles.spec.ts` and the
+`@missing-elements/h5p-author` dependency.
 
 ## Deploy
 

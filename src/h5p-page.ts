@@ -20,8 +20,7 @@ import { runtime } from '@missing-elements/h5p-runtime'
  *   the browser for every package that uses it, where the whole `libraries.h5p` (15.5 MB since
  *   pack 1.1.0, 1.8 MB of it libraries the player never reads) was downloaded at the first package
  *   that lacked anything. A package that carries an older version of a library plays the pack's
- *   newer one (player 0.10), unless the address says `&refresh-libraries=off`. The build page reads
- *   the same parts.
+ *   newer one (player 0.10), unless the address says `&refresh-libraries=off`.
  * - `defaultLibraries: 'pack'`: an export without its libraries (H5P.com, h5p.org) takes them from
  *   that pack, and from nowhere else: the player has no hub fallback since 0.6, so the page asks no
  *   third party for anything. Snippets have never carried `&libraries=`, so this keeps them playing
