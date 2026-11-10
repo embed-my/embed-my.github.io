@@ -12,3 +12,8 @@ updates:
     groups:
       dev:
         dependency-type: development
+    # New versions wait three days, but ours are taken as they are released: they are what this
+    # origin serves. pnpm-workspace.yaml leaves them out of pnpm's age check to match (#19).
+    cooldown:
+      default-days: 3
+      exclude: ["@missing-elements/*"]
