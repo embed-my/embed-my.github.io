@@ -20,7 +20,7 @@
     "vite": "^8.3.6"
   },
   "dependencies": {
-    "@missing-elements/h5p-author": "^0.6.0",
+    "@missing-elements/h5p-author": "^0.9.3",
     "@missing-elements/h5p-embed": "^1.7.0",
     "@missing-elements/h5p-libraries": "^1.1.0",
     "@missing-elements/h5p-offline-player": "^1.6.0",
