@@ -1,19 +1,7 @@
-# Keeps the pinned action SHAs and the npm dependencies current, one pull request a week each.
+# Keeps the pinned action SHAs current, one pull request a week.
 version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
-  - package-ecosystem: npm
-    directory: /
-    schedule:
-      interval: weekly
-    groups:
-      dev:
-        dependency-type: development
-    # New versions wait three days, but ours are taken as they are released: they are what this
-    # origin serves. pnpm-workspace.yaml leaves them out of pnpm's age check to match (#19).
-    cooldown:
-      default-days: 3
-      exclude: ["@missing-elements/*"]
